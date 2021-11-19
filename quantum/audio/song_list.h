@@ -28,6 +28,9 @@
 
 #define NO_SOUND
 
+// Get more songs from:
+// https://github.com/drashna/qmk_firmware/blob/b68d8fe82eac0be9ca8862fdf94ae4bfbbb0735e/quantum/audio/song_list.h
+
 /* Ode to Joy
  * Author: Friedrich Schiller
  + License: Public Domain
@@ -167,9 +170,9 @@
 #ifndef BASKET_CASE
 #    define BASKET_CASE
 #endif
-#ifndef COIN_SOUND
-#    define COIN_SOUND
-#endif
+#define COIN_SOUND \
+    E__NOTE(_A5  ),      \
+    HD_NOTE(_E6  ),
 #ifndef ONE_UP_SOUND
 #    define ONE_UP_SOUND
 #endif
@@ -185,9 +188,53 @@
 #ifndef OVERWATCH_THEME
 #    define OVERWATCH_THEME
 #endif
-#ifndef MARIO_THEME
-#    define MARIO_THEME
-#endif
+#define MARIO_THEME \
+    Q__NOTE(_E5), \
+    H__NOTE(_E5), \
+    H__NOTE(_E5), \
+    Q__NOTE(_C5), \
+    H__NOTE(_E5), \
+    W__NOTE(_G5), \
+    Q__NOTE(_G4),
+
+#define MARIO_GAMEOVER \
+    HD_NOTE(_C5 ), \
+    HD_NOTE(_G4 ), \
+    H__NOTE(_E4 ), \
+    H__NOTE(_A4 ), \
+    H__NOTE(_B4 ), \
+    H__NOTE(_A4 ), \
+    H__NOTE(_AF4), \
+    H__NOTE(_BF4), \
+    H__NOTE(_AF4), \
+    WD_NOTE(_G4 ),
+
+#define MARIO_MUSHROOM \
+    S__NOTE(_C5 ), \
+    S__NOTE(_G4 ), \
+    S__NOTE(_C5 ), \
+    S__NOTE(_E5 ), \
+    S__NOTE(_G5 ), \
+    S__NOTE(_C6 ), \
+    S__NOTE(_G5 ), \
+    S__NOTE(_GS4), \
+    S__NOTE(_C5 ), \
+    S__NOTE(_DS5), \
+    S__NOTE(_GS5), \
+    S__NOTE(_DS5), \
+    S__NOTE(_GS5), \
+    S__NOTE(_C6 ), \
+    S__NOTE(_DS6), \
+    S__NOTE(_GS6), \
+    S__NOTE(_DS6), \
+    S__NOTE(_AS4), \
+    S__NOTE(_D5 ), \
+    S__NOTE(_F5 ), \
+    S__NOTE(_AS5), \
+    S__NOTE(_D6 ), \
+    S__NOTE(_F6 ), \
+    S__NOTE(_AS6), \
+    S__NOTE(_F6 )
 #ifndef MARIO_GAMEOVER
 #    define MARIO_GAMEOVER
 #endif
@@ -214,9 +261,6 @@
 #endif
 #ifndef ALL_STAR
 #    define ALL_STAR
-#endif
-#ifndef RICK_ROLL
-#    define RICK_ROLL
 #endif
 #ifndef FF_PRELUDE
 #    define FF_PRELUDE
@@ -275,3 +319,34 @@
 #ifndef LP_NUMB
 #    define LP_NUMB
 #endif
+
+#define RICK_ROLL      \
+    Q__NOTE(_F4),      \
+    Q__NOTE(_G4),      \
+    Q__NOTE(_BF4),     \
+    Q__NOTE(_G4),      \
+    HD_NOTE(_D5),      \
+    HD_NOTE(_D5),      \
+    W__NOTE(_C5),      \
+    S__NOTE(_REST),    \
+    Q__NOTE(_F4),      \
+    Q__NOTE(_G4),      \
+    Q__NOTE(_BF4),     \
+    Q__NOTE(_G4),      \
+    HD_NOTE(_C5),      \
+    HD_NOTE(_C5),      \
+    W__NOTE(_BF4),     \
+    S__NOTE(_REST),    \
+    Q__NOTE(_F4),      \
+    Q__NOTE(_G4),      \
+    Q__NOTE(_BF4),     \
+    Q__NOTE(_G4),      \
+    W__NOTE(_BF4),     \
+    H__NOTE(_C5),      \
+    H__NOTE(_A4),      \
+    H__NOTE(_A4),      \
+    H__NOTE(_G4),      \
+    H__NOTE(_F4),      \
+    H__NOTE(_F4),      \
+    W__NOTE(_C5),      \
+    W__NOTE(_BF4),

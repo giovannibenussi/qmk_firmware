@@ -22,44 +22,92 @@
 #include "version.h"
 
 enum layers {
-    BASE,  // default layer
-    SYMB,  // symbols
-    MDIA,  // media keys
+    BASE,
+    SYMBOLS,
+    SYMBOLS_ALT,
+    NUMBERS,
+    VIM_TMUX,
 };
 
 enum custom_keycodes {
     VRSN = ML_SAFE_RANGE,
+    TYPE_EMAIL,
+    SAVE_VIM,
+    SWITCH_APP,
+    VIM_TAB_PREV,
+    VIM_TAB_NEXT,
+    TMUX_PREVIOUS_WINDOW,
+    TMUX_NEXT_WINDOW,
+    TMUX_PREVIOUS_SESSION,
+    TMUX_ZOOM,
+    TMUX_SCROLL,
+    SONG_1,
+    SONG_2,
+    SONG_3,
+    SONG_4,
+    SONG_5,
+    SONG_6,
+    SONG_7,
+    SONG_8,
+    SONG_9,
+    SONG_0,
 };
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [BASE] = LAYOUT_moonlander(
-        KC_EQL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_LEFT,           KC_RGHT, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
-        KC_DEL,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    TG(SYMB),         TG(SYMB), KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
-        KC_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_HYPR,           KC_MEH,  KC_H,    KC_J,    KC_K,    KC_L,    LT(MDIA, KC_SCLN), LGUI_T(KC_QUOT),
-        KC_LSFT, LCTL_T(KC_Z),KC_X,KC_C,    KC_V,    KC_B,                                KC_N,    KC_M,    KC_COMM, KC_DOT,  RCTL_T(KC_SLSH), KC_RSFT,
-    LT(SYMB,KC_GRV),WEBUSB_PAIR,A(KC_LSFT),KC_LEFT, KC_RGHT,  LALT_T(KC_APP),    RCTL_T(KC_ESC),   KC_UP,   KC_DOWN, KC_LBRC, KC_RBRC, MO(SYMB),
-                                            KC_SPC,  KC_BSPC, KC_LGUI,           KC_LALT,  KC_TAB,  KC_ENT
+  [BASE] = LAYOUT_moonlander(
+    _______,         _______,            _______,      _______,      _______,      _______, _______,           _______,             _______, _______,      _______,      _______,         _______,           _______,
+    KC_GRAVE,        KC_Q,               KC_W,         KC_E,         KC_R,         KC_T,    _______,           _______,             KC_Y,    KC_U,         KC_I,         KC_O,            KC_P,              KC_SCOLON,
+    LCTL_T(KC_TAB),  LCMD_T(KC_A),       LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,    LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_QUOT,
+    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z), KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,    KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
+    _______,         _______,             _______,     _______,      _______,      _______,                                         _______, _______,      _______,      _______,         _______,           _______,
+                                                               LT(SYMBOLS, KC_ENT),       KC_ESC,  KC_LGUI,           KC_ESC, KC_BSPC, LT(NUMBERS, KC_SPC)
+  ),
+
+    [SYMBOLS] = LAYOUT_moonlander(
+        _______, _______,    _______,  _______, _______,                       _______,     _______,           _______, _______,      _______,               _______,                _______,     _______,  _______,
+        _______, KC_EXCLAIM, KC_AT,    KC_HASH, KC_DOLLAR,                     KC_PERCENT,  _______,           _______, KC_AMPERSAND, KC_LEFT_PAREN,         KC_RIGHT_PAREN,         KC_MINUS,    KC_EQUAL, _______,
+        _______, SWITCH_APP,    SAVE_VIM, _______, LT(SYMBOLS_ALT, KC_KP_ASTERISK),  KC_QUESTION, _______,           _______, _______,      KC_LEFT_CURLY_BRACE,   KC_RIGHT_CURLY_BRACE,   KC_QUOTE,       _______, _______,
+        _______, _______,    _______,  _______, _______,                       KC_SLASH,                                _______,      KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, KC_SLASH,    _______,  _______,
+        _______, _______,    _______,  _______, _______,                       _______,                       _______, _______,      _______,               _______,                TYPE_EMAIL,  _______,
+                                                _______,                       _______,     _______,           _______, _______,      _______
     ),
 
-    [SYMB] = LAYOUT_moonlander(
-        VRSN,    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______,           _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        _______, KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, _______,           _______, KC_UP,   KC_7,    KC_8,    KC_9,    KC_ASTR, KC_F12,
-        _______, KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,  _______,           _______, KC_DOWN, KC_4,    KC_5,    KC_6,    KC_PLUS, _______,
-        _______, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD,                             KC_AMPR, KC_1,    KC_2,    KC_3,    KC_BSLS, _______,
-        EEP_RST, _______, _______, _______, _______,          RGB_VAI,           RGB_TOG,          _______, KC_DOT,  KC_0,    KC_EQL,  _______,
-                                            RGB_HUD, RGB_VAD, RGB_HUI, TOGGLE_LAYER_COLOR,_______, _______
+    [SYMBOLS_ALT] = LAYOUT_moonlander(
+      _______, _______,    _______,  _______, _______,     _______,  _______,           _______, _______, _______,               _______,                _______,  _______,     _______,
+      _______, _______,    _______,  _______, _______,     _______,  _______,           _______, _______, _______,               _______,                KC_UNDERSCORE,  KC_PLUS,     _______,
+      _______, _______,    _______, _______, _______, _______,  _______,           _______, _______, KC_LBRACKET,           KC_RBRACKET,            KC_DOUBLE_QUOTE,    _______,    _______,
+      _______, _______,    _______,  _______, _______,     _______,                             _______, _______, _______, _______, _______,     _______,
+      _______, _______,    _______,  _______, _______,               _______,           _______,          _______,               _______,                _______,  _______,  _______,
+                                              _______,      _______,  _______,           _______, _______,      _______
     ),
 
-    [MDIA] = LAYOUT_moonlander(
-        LED_LEVEL,_______,_______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, RESET,
-        _______, _______, _______, KC_MS_U, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,           _______, _______, _______, _______, _______, _______, KC_MPLY,
-        _______, _______, _______, _______, _______, _______,                             _______, _______, KC_MPRV, KC_MNXT, _______, _______,
-        _______, _______, _______, KC_BTN1, KC_BTN2,         _______,            _______,          KC_VOLU, KC_VOLD, KC_MUTE, _______, _______,
-                                            _______, _______, _______,           _______, _______, _______
+
+    [NUMBERS] = LAYOUT_moonlander(
+        _______, SONG_1,  SONG_2,  SONG_3,  _______, _______, _______,           _______, _______,   _______,   _______,   _______,   _______,  RGB_TOG,
+        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,   KC_7,   KC_8,   KC_9,   KC_0,  KC_BSLASH,
+        _______, _______, _______, _______, _______, _______, _______,           _______, KC_LEFT,   KC_DOWN,   KC_UP,   KC_RIGHT,   _______,  _______,
+        _______, _______, _______, _______, _______,      _______,                             _______, _______,    _______,    _______,    _______, _______,
+        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______,  _______,    _______,  _______,
+                                            _______, _______, _______, _______,_______, _______
     ),
+
+    [VIM_TMUX] = LAYOUT_moonlander(
+        _______, _______, _______, _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, _______, TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, TMUX_ZOOM, VIM_TAB_PREV,         VIM_TAB_NEXT,     _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, _______, TMUX_SCROLL,              _______,          _______,                                  _______, _______,  _______,   _______, _______, _______,
+        _______, _______, _______, _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______,
+                                            _______, _______, _______, _______,_______, _______
+    ),
+
 };
+
+float mario_theme[][2] = SONG(MARIO_THEME);
+float mario_gameover_theme[][2] = SONG(MARIO_GAMEOVER);
+float mario_mushroom_theme[][2] = SONG(MARIO_MUSHROOM);
+float my_song[][2] = SONG(QWERTY_SOUND);
+float rick_roll_theme[][2] = SONG(RICK_ROLL);
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
@@ -67,7 +115,94 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case VRSN:
             SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
             return false;
+        case TYPE_EMAIL:
+            SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            return false;
+        case SAVE_VIM:
+            SEND_STRING(SS_TAP(X_ESC) " w");
+            return false;
+        case VIM_TAB_NEXT:
+            SEND_STRING(SS_TAP(X_ESC) "gt");
+            return false;
+        case VIM_TAB_PREV:
+            SEND_STRING(SS_TAP(X_ESC) "gT");
+            return false;
+        case TMUX_PREVIOUS_WINDOW:
+            SEND_STRING(SS_LCTL("s") "p");
+            return false;
+        case TMUX_NEXT_WINDOW:
+            SEND_STRING(SS_LCTL("s") "n");
+            return false;
+        case TMUX_PREVIOUS_SESSION:
+            SEND_STRING(SS_LCTL("s") SS_LSFT("l"));
+            return false;
+        case TMUX_ZOOM:
+            SEND_STRING(SS_LCTL("s") "z");
+            return false;
+        case TMUX_SCROLL:
+            SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET)); 
+            return false;
+        case SWITCH_APP:
+            SEND_STRING(SS_LCMD(SS_DOWN(X_TAB)));
+            return false;
+        case SONG_1:
+            PLAY_SONG(mario_theme);
+            return false;
+        case SONG_2:
+            PLAY_SONG(mario_mushroom_theme);
+            return false;
+        case SONG_3:
+            PLAY_SONG(mario_gameover_theme);
+            return false;
         }
     }
     return true;
 }
+
+enum combo_events {
+  PREVIOUS_TAB_COMBO,
+  NEXT_TAB_COMBO,
+  SWITCH_APP_COMBO,
+  VIM_CLIPBOARD_REGISTER,
+  COMBO_LENGTH
+};
+uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
+
+const uint16_t PROGMEM previous_tab[] = {LCTL_T(KC_S), LOPT_T(KC_D), COMBO_END};
+const uint16_t PROGMEM next_tab[] = {LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM switch_app[] = {LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM vim_clipboard_register[] = {KC_U, KC_O, COMBO_END};
+
+combo_t key_combos[] = {
+  [PREVIOUS_TAB_COMBO] = COMBO_ACTION(previous_tab),
+  [NEXT_TAB_COMBO] = COMBO_ACTION(next_tab),
+  [SWITCH_APP_COMBO] = COMBO_ACTION(switch_app),
+  [VIM_CLIPBOARD_REGISTER] = COMBO_ACTION(vim_clipboard_register),
+};
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+  switch(combo_index) {
+    case PREVIOUS_TAB_COMBO:
+      if (pressed) {
+        SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LSFT) SS_TAP(X_TAB) SS_UP(X_LSFT) SS_UP(X_LCTL)); 
+      }
+      break;
+    case NEXT_TAB_COMBO:
+      if (pressed) {
+        SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_TAB) SS_UP(X_LCTL)); 
+      }
+      break;
+    case SWITCH_APP_COMBO:
+      if (pressed) {
+        SEND_STRING(SS_DOWN(X_LCMD) SS_TAP(X_TAB) SS_UP(X_LCMD)); 
+      }
+      break;
+    case VIM_CLIPBOARD_REGISTER:
+      if (pressed) {
+        SEND_STRING("\"*");
+      }
+      break;
+  }
+}
+
+
