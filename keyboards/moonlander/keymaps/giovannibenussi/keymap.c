@@ -248,8 +248,8 @@ void matrix_scan_user(void) {
     };
     SEQ_THREE_KEYS(KC_O, KC_P, KC_R) {
         SEND_STRING(SS_DOWN(X_LOPT) SS_DOWN(X_LSFT) "v" SS_UP(X_LSFT) SS_UP(X_LOPT)); 
-        SEND_STRING(SS_LCMD("l")); 
-        SEND_STRING("https://start.duckduckgo.com\n");
+        SEND_STRING(SS_DELAY(1000) SS_LCMD("l")); 
+        SEND_STRING("https://github.com/PropertySimple/crm-public\n");
         SEND_STRING(SS_TAP(X_ENTER)); 
     };
     SEQ_TWO_KEYS(KC_A, KC_S) {
