@@ -57,11 +57,11 @@ enum custom_keycodes {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [BASE] = LAYOUT_moonlander(
-    _______,         _______,      _______,      _______,      _______,      _______, _______,           _______,             _______, _______,      _______,      _______,         _______,           _______,
-    KC_GRAVE,        KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,    _______,           _______,             KC_Y,    KC_U,         KC_I,         KC_O,            KC_P,              KC_SCOLON,
-    LCTL_T(KC_TAB),  LCMD_T(KC_A), LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,    LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_QUOT,
-    LSFT_T(KC_CAPS), KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,    KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
-    _______,         _______,      _______,     _______,      _______,      _______,                                         _______, _______,      _______,      _______,         _______,           _______,
+    _______,         _______,               _______,      _______,      _______,      _______, _______,           _______,             _______, _______,      _______,      _______,         _______,           _______,
+    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,         KC_T,    _______,           _______,             KC_Y,    KC_U,         KC_I,         KC_O,            KC_P,              KC_SCOLON,
+    LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,    LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_QUOT,
+    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,    KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
+    _______,         _______,               _______,     _______,      _______,      _______,                                         _______,  KC_LEAD,      TT(NUMPAD),      _______,         _______,           _______,
                                                                LT(SYMBOLS, KC_ENT),       LT(VIM_TMUX, KC_ESC),  KC_LGUI,           KC_ESC, KC_BSPC, LT(NUMBERS, KC_SPC)
   ),
 
@@ -96,9 +96,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [VIM_TMUX] = LAYOUT_moonlander(
         _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
         _______, _______, _______,   TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, TMUX_SCROLL, TMUX_ZOOM, VIM_TAB_PREV,         VIM_TAB_NEXT, TMUX_ZOOM_SCROLL,      _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, TMUX_ZOOM, VIM_TAB_PREV,         VIM_TAB_NEXT, TMUX_ZOOM_SCROLL,      _______,           _______, _______,  _______,   _______, _______, _______,  _______,
         _______, _______, _______,   _______,              _______,          _______,                                  _______, _______,  _______,   _______, _______, _______,
-        _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______,
+        _______, _______, _______,   TMUX_SCROLL,          _______,          _______,               _______,           _______, _______,  _______,   _______, _______,
                                             _______, _______, _______, _______,_______, _______
     ),
 
@@ -108,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______,          _______, _______, KC_4,    KC_5,    KC_6,    _______, _______,
         _______, _______, _______, _______, _______, _______,                            _______, KC_1,    KC_2,    KC_3,    _______, _______,
         _______, _______, _______, _______, _______,          _______, _______,          _______, KC_0,    _______, _______, _______,
-                                            _______, _______, _______, _______, _______, _______
+                                            _______, _______, _______, _______, _______, KC_ENT
     ),
 
     /*[LAYOUT_NAME] = LAYOUT_moonlander(*/
@@ -232,4 +232,31 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
   }
 }
 
+LEADER_EXTERNS();
 
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+
+    SEQ_ONE_KEY(KC_F) {
+      // Anything you can do in a macro.
+      SEND_STRING("QMK is awesome.");
+    };
+    SEQ_TWO_KEYS(KC_D, KC_D) {
+      SEND_STRING(SS_LCTL("a") SS_LCTL("c"));
+    };
+    SEQ_THREE_KEYS(KC_O, KC_P, KC_R) {
+        SEND_STRING(SS_DOWN(X_LOPT) SS_DOWN(X_LSFT) "v" SS_UP(X_LSFT) SS_UP(X_LOPT)); 
+        SEND_STRING(SS_LCMD("l")); 
+        SEND_STRING("https://start.duckduckgo.com\n");
+        SEND_STRING(SS_TAP(X_ENTER)); 
+    };
+    SEQ_TWO_KEYS(KC_A, KC_S) {
+      register_code(KC_LGUI);
+      register_code(KC_S);
+      unregister_code(KC_S);
+      unregister_code(KC_LGUI);
+    };
+  }
+}
