@@ -28,6 +28,7 @@ enum layers {
     NUMBERS,
     VIM_TMUX,
     NUMPAD,
+    RGB_LAYER,
 };
 
 enum custom_keycodes {
@@ -57,12 +58,12 @@ enum custom_keycodes {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [BASE] = LAYOUT_moonlander(
-    _______,         _______,               _______,      _______,      _______,      _______, _______,           _______,             _______, _______,      _______,      _______,         _______,           _______,
-    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,         KC_T,    _______,           _______,             KC_Y,    KC_U,         KC_I,         KC_O,            KC_P,              KC_SCOLON,
-    LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,    LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_QUOT,
-    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,    KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
-    _______,         _______,               _______,     _______,      _______,      _______,                                         _______,  KC_LEAD,      TT(NUMPAD),      _______,         _______,           _______,
-                                                               LT(SYMBOLS, KC_ENT),       LT(VIM_TMUX, KC_ESC),  KC_LGUI,           KC_ESC, KC_BSPC, LT(NUMBERS, KC_SPC)
+    _______,         _______,               _______,      _______,      _______,      _______, _______,           _______,             _______,            _______,      _______,      _______,         _______,           _______,
+    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,         KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_SCOLON,
+    LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_QUOT,
+    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,               KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
+    _______,         _______,               _______,     _______,      _______,      _______,                                         _______,             KC_LEAD,      TT(NUMPAD),      _______,         _______,           _______,
+                                                               LT(SYMBOLS, KC_ENT),       LT(VIM_TMUX, KC_ESC),  KC_LGUI,           LT(RGB_LAYER, KC_ESC), KC_BSPC, LT(NUMBERS, KC_SPC)
   ),
 
   [SYMBOLS] = LAYOUT_moonlander(
@@ -85,11 +86,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     [NUMBERS] = LAYOUT_moonlander(
-        _______, SONG_1,  SONG_2,  SONG_3,  _______, _______, _______,           _______, _______,   _______,   _______,   _______,   _______,  RGB_TOG,
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,   KC_7,   KC_8,   KC_9,   KC_0,  KC_BSLASH,
-        _______, _______, _______, _______, _______, _______, _______,           _______, KC_LEFT,   KC_DOWN,   KC_UP,   KC_RIGHT,   _______,  _______,
-        _______, _______, _______, _______, _______,      _______,                             _______, _______,    _______,    _______,    _______, _______,
-        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______,  _______,    _______,  _______,
+        _______, SONG_1,  SONG_2,  SONG_3,  _______, _______, _______,           _______, _______, _______, _______, _______,  _______, _______,
+        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,     KC_0,    KC_BSLASH,
+        _______, _______, _______, _______, _______, _______, _______,           _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______,
+        _______, _______, _______, _______, _______,      _______,                        _______, _______, _______, _______,  _______, _______,
+        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______,  _______, _______,
                                             _______, _______, _______, _______,_______, _______
     ),
 
@@ -109,6 +110,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______,                            _______, KC_1,    KC_2,    KC_3,    _______, _______,
         _______, _______, _______, _______, _______,          _______, _______,          _______, KC_0,    _______, _______, _______,
                                             _______, _______, _______, _______, _______, KC_ENT
+    ),
+
+    [RGB_LAYER] = LAYOUT_moonlander(
+        _______, _______,        _______,          _______,          _______,        _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, RGB_MODE_PLAIN, RGB_MODE_BREATHE, RGB_MODE_RAINBOW, RGB_MODE_SWIRL, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______,        _______,          _______,          RGB_TOG,        _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______,        _______,          _______,          _______,        _______,                            _______, _______, _______, _______, _______, _______,
+        _______, _______,        _______,          _______,          _______,                 _______, _______,          _______, _______, _______, _______, _______,
+                                                                     _______,        _______, _______, _______, _______, KC_ENT
     ),
 
     /*[LAYOUT_NAME] = LAYOUT_moonlander(*/
