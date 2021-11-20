@@ -27,13 +27,13 @@ enum layers {
     SYMBOLS_ALT,
     NUMBERS,
     VIM_TMUX,
+    NUMPAD,
 };
 
 enum custom_keycodes {
     VRSN = ML_SAFE_RANGE,
     TYPE_EMAIL,
     SAVE_VIM,
-    SWITCH_APP,
     VIM_TAB_PREV,
     VIM_TAB_NEXT,
     TMUX_PREVIOUS_WINDOW,
@@ -41,6 +41,7 @@ enum custom_keycodes {
     TMUX_PREVIOUS_SESSION,
     TMUX_ZOOM,
     TMUX_SCROLL,
+    TMUX_ZOOM_SCROLL,
     SONG_1,
     SONG_2,
     SONG_3,
@@ -61,16 +62,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LCTL_T(KC_TAB),  LCMD_T(KC_A),       LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,    LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_QUOT,
     LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z), KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,    KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     _______,         _______,             _______,     _______,      _______,      _______,                                         _______, _______,      _______,      _______,         _______,           _______,
-                                                               LT(SYMBOLS, KC_ENT),       KC_ESC,  KC_LGUI,           KC_ESC, KC_BSPC, LT(NUMBERS, KC_SPC)
+                                                               LT(SYMBOLS, KC_ENT),       LT(VIM_TMUX, KC_ESC),  KC_LGUI,           KC_ESC, KC_BSPC, LT(NUMBERS, KC_SPC)
   ),
 
     [SYMBOLS] = LAYOUT_moonlander(
-        _______, _______,    _______,  _______, _______,                       _______,     _______,           _______, _______,      _______,               _______,                _______,     _______,  _______,
-        _______, KC_EXCLAIM, KC_AT,    KC_HASH, KC_DOLLAR,                     KC_PERCENT,  _______,           _______, KC_AMPERSAND, KC_LEFT_PAREN,         KC_RIGHT_PAREN,         KC_MINUS,    KC_EQUAL, _______,
-        _______, SWITCH_APP,    SAVE_VIM, _______, LT(SYMBOLS_ALT, KC_KP_ASTERISK),  KC_QUESTION, _______,           _______, _______,      KC_LEFT_CURLY_BRACE,   KC_RIGHT_CURLY_BRACE,   KC_QUOTE,       _______, _______,
-        _______, _______,    _______,  _______, _______,                       KC_SLASH,                                _______,      KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, KC_SLASH,    _______,  _______,
-        _______, _______,    _______,  _______, _______,                       _______,                       _______, _______,      _______,               _______,                TYPE_EMAIL,  _______,
-                                                _______,                       _______,     _______,           _______, _______,      _______
+        _______, _______,    _______,  _______, _______,                         _______,     _______,           _______, _______,      _______,               _______,                _______,     _______,  _______,
+        _______, KC_EXCLAIM, KC_AT,    KC_HASH, KC_DOLLAR,                       KC_PERCENT,  _______,           _______, KC_AMPERSAND, KC_LEFT_PAREN,         KC_RIGHT_PAREN,         KC_MINUS,    KC_EQUAL, _______,
+        _______, _______,    SAVE_VIM, _______, LT(SYMBOLS_ALT, KC_KP_ASTERISK), KC_QUESTION, _______,           _______, _______,      KC_LEFT_CURLY_BRACE,   KC_RIGHT_CURLY_BRACE,   KC_QUOTE,       _______, _______,
+        _______, _______,    _______,  _______, _______,                         KC_SLASH,                                _______,      KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, KC_SLASH,    _______,  _______,
+        _______, _______,    _______,  _______, _______,                         _______,                        _______, _______,      _______,               _______,                TYPE_EMAIL,  _______,
+                                                _______,                         _______,     _______,           _______, _______,      _______
     ),
 
     [SYMBOLS_ALT] = LAYOUT_moonlander(
@@ -93,14 +94,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [VIM_TMUX] = LAYOUT_moonlander(
-        _______, _______, _______, _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, _______, _______, TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, _______, TMUX_ZOOM, VIM_TAB_PREV,         VIM_TAB_NEXT,     _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, _______, _______, TMUX_SCROLL,              _______,          _______,                                  _______, _______,  _______,   _______, _______, _______,
-        _______, _______, _______, _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______,
+        _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, _______,   TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, TMUX_SCROLL, TMUX_ZOOM, VIM_TAB_PREV,         VIM_TAB_NEXT, TMUX_ZOOM_SCROLL,      _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, _______,   _______,              _______,          _______,                                  _______, _______,  _______,   _______, _______, _______,
+        _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______,
                                             _______, _______, _______, _______,_______, _______
     ),
 
+    [NUMPAD] = LAYOUT_moonlander(
+        _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
+        _______, _______, _______,   _______,              _______,          _______,                                  _______, _______,  _______,   _______, _______, _______,
+        _______, _______, _______,   _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______,
+                                            _______, _______, _______, _______,_______, _______
+    ),
 };
 
 float mario_theme[][2] = SONG(MARIO_THEME);
@@ -142,8 +151,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TMUX_SCROLL:
             SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET)); 
             return false;
-        case SWITCH_APP:
-            SEND_STRING(SS_LCMD(SS_DOWN(X_TAB)));
+        case TMUX_ZOOM_SCROLL:
+            SEND_STRING(SS_LCTL("s") "z");
+            SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET)); 
             return false;
         case SONG_1:
             PLAY_SONG(mario_theme);
@@ -163,20 +173,23 @@ enum combo_events {
   PREVIOUS_TAB_COMBO,
   NEXT_TAB_COMBO,
   SWITCH_APP_COMBO,
+  VIM_SAVE,
   VIM_CLIPBOARD_REGISTER,
   COMBO_LENGTH
 };
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
 
 const uint16_t PROGMEM previous_tab[] = {LCTL_T(KC_S), LOPT_T(KC_D), COMBO_END};
-const uint16_t PROGMEM next_tab[] = {LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM next_tab[] = {LCTL_T(KC_S), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM switch_app[] = {LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM vim_save[] = {LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM vim_clipboard_register[] = {KC_U, KC_O, COMBO_END};
 
 combo_t key_combos[] = {
   [PREVIOUS_TAB_COMBO] = COMBO_ACTION(previous_tab),
   [NEXT_TAB_COMBO] = COMBO_ACTION(next_tab),
   [SWITCH_APP_COMBO] = COMBO_ACTION(switch_app),
+  [VIM_SAVE] = COMBO_ACTION(vim_save),
   [VIM_CLIPBOARD_REGISTER] = COMBO_ACTION(vim_clipboard_register),
 };
 
@@ -195,6 +208,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case SWITCH_APP_COMBO:
       if (pressed) {
         SEND_STRING(SS_DOWN(X_LCMD) SS_TAP(X_TAB) SS_UP(X_LCMD)); 
+      }
+      break;
+    case VIM_SAVE:
+      if (pressed) {
+        SEND_STRING(SS_TAP(X_ESC) " w");
       }
       break;
     case VIM_CLIPBOARD_REGISTER:
