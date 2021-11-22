@@ -43,6 +43,7 @@ enum custom_keycodes {
     TMUX_ZOOM,
     TMUX_SCROLL,
     TMUX_ZOOM_SCROLL,
+    ANIMATE_KEY_PRESS,
     SONG_1,
     SONG_2,
     SONG_3,
@@ -113,11 +114,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [RGB_LAYER] = LAYOUT_moonlander(
-        _______, _______,        _______,          _______,          _______,        _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, RGB_MODE_PLAIN, RGB_MODE_BREATHE, RGB_MODE_RAINBOW, RGB_MODE_SWIRL, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, _______,        _______,          _______,          RGB_TOG,        _______, _______,          _______, RGB_HUD, RGB_HUI, RGB_SAD, RGB_SAI, _______, _______,
-        _______, _______,        _______,          _______,          _______,        _______,                            _______, _______, _______, _______, _______, _______,
-        _______, _______,        _______,          _______,          _______,                 _______, _______,          _______, _______, _______, _______, _______,
+        _______, _______,        _______,          _______,          _______,        _______, _______,          _______,                    _______, _______, _______, _______, _______, _______,
+        _______, RGB_MODE_PLAIN, RGB_MODE_BREATHE, RGB_MODE_RAINBOW, RGB_MODE_SWIRL, _______, _______,          _______, ANIMATE_KEY_PRESS, _______, _______, _______, _______, _______,
+        _______, _______,        _______,          _______,          RGB_TOG,        _______, _______,          _______, RGB_HUD,           RGB_HUI, RGB_SAD, RGB_SAI, _______, _______,
+        _______, _______,        _______,          _______,          _______,        _______,                            _______,           _______, _______, _______, _______, _______,
+        _______, _______,        _______,          _______,          _______,                 _______, _______,          _______,           _______, _______, _______, _______,
                                                                      _______,        _______, _______, _______, _______, _______
     ),
 
@@ -174,6 +175,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING(SS_LCTL("s") "z");
             SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET)); 
             return false;
+        case ANIMATE_KEY_PRESS:
+            rgb_matrix_mode(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
+            rgb_matrix_set_color(0, 249, 115, 22);
+            return false;
         case SONG_1:
             PLAY_SONG(mario_theme);
             return false;
@@ -202,7 +207,7 @@ const uint16_t PROGMEM previous_tab[] = {LCTL_T(KC_S), LOPT_T(KC_D), COMBO_END};
 const uint16_t PROGMEM next_tab[] = {LCTL_T(KC_S), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM switch_app[] = {LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM vim_save[] = {LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
-const uint16_t PROGMEM vim_clipboard_register[] = {KC_U, KC_O, COMBO_END};
+const uint16_t PROGMEM vim_clipboard_register[] = {KC_U, KC_I, COMBO_END};
 
 combo_t key_combos[] = {
   [PREVIOUS_TAB_COMBO] = COMBO_ACTION(previous_tab),
