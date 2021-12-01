@@ -30,6 +30,7 @@ enum layers {
     VIM_TMUX,
     NUMPAD,
     RGB_LAYER,
+    MOUSE_AND_SOUND_LAYER
 };
 
 enum custom_keycodes {
@@ -67,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SCOLON,
     LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,               KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     _______,         _______,               _______,     _______,      _______,      _______,                                         _______,             KC_LEAD,      TT(NUMPAD),      _______,         _______,           _______,
-                                                               LT(SYMBOLS, KC_ENT),       LT(VIM_TMUX, KC_ESC),  KC_LGUI,           LT(RGB_LAYER, KC_ESC), KC_BSPC, LT(NUMBERS, KC_SPC)
+                                                               LT(SYMBOLS, KC_ENT),       LT(VIM_TMUX, KC_ESC),  KC_LGUI,           LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(NUMBERS, KC_SPC)
   ),
 
   [SYMBOLS] = LAYOUT_moonlander(
@@ -116,8 +117,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______, _______, _______, KC_ENT
     ),
 
+    [MOUSE_AND_SOUND_LAYER] = LAYOUT_moonlander(
+        _______, _______,        _______,             _______,             _______,             _______, _______,          _______, _______, _______,          _______,     _______, _______, _______,
+        _______, _______,        _______,             _______,             _______,             _______, _______,          _______, _______,    _______,       KC_MS_BTN1,     KC_MS_BTN2, _______, _______,
+        _______, _______,        KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, _______, _______,          _______, KC_MS_LEFT, KC_MS_DOWN,    KC_MS_UP,    KC_MS_RIGHT, _______, _______,
+        _______, _______,        _______,             KC__VOLDOWN,         KC__VOLUP,           _______,                            _______,    KC_MS_WH_DOWN, KC_MS_WH_UP, _______, _______, _______,
+        _______, _______,        _______,             _______,             _______,             _______, _______,          _______,          _______,       _______,        _______, _______,
+                                                                           _______,             _______, _______, _______, _______, _______
+    ),
     [RGB_LAYER] = LAYOUT_moonlander(
-        _______, _______,        _______,             _______,             _______,             _______, _______,          _______,                    _______, _______, _______, _______, _______, _______,
+        _______, SONG_1,         SONG_2,              SONG_3,             _______,             _______, _______,          _______,                    _______, _______, _______, _______, _______, _______,
         _______, RGB_MODE_PLAIN, RGB_MODE_BREATHE,    RGB_MODE_RAINBOW,    RGB_MODE_SWIRL,      RGB_TOG, _______,          _______, ANIMATE_KEY_PRESS, _______, _______, _______, _______, _______,
         _______, _______,        KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, _______, _______,          _______, RGB_HUD,           RGB_HUI, RGB_SAD, RGB_SAI, _______, _______,
         _______, _______,        _______,             KC__VOLDOWN,         KC__VOLUP,           _______,                            RGB_VAI,           RGB_VAD, _______, _______, _______, _______,
