@@ -39,6 +39,8 @@ enum custom_keycodes {
     SAVE_VIM,
     VIM_TAB_PREV,
     VIM_TAB_NEXT,
+    VIM_SEARCH,
+    VIM_SEARCH_JS,
     TMUX_PREVIOUS_WINDOW,
     TMUX_NEXT_WINDOW,
     TMUX_PREVIOUS_SESSION,
@@ -64,7 +66,7 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [BASE] = LAYOUT_moonlander(
     _______,         _______,               _______,      _______,      _______,      _______, _______,           _______,             _______,            _______,      _______,      _______,         _______,           _______,
-    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,         KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_QUOT,
+    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,         KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_BSLASH,
     LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SCOLON,
     LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,         KC_B,                                            KC_N,               KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     _______,         _______,               _______,     _______,      _______,      _______,                                         _______,             KC_LEAD,      TT(NUMPAD),      _______,         _______,           _______,
@@ -75,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______,    _______,  _______, _______,                         _______,     _______,           _______, _______,      _______,               _______,                _______,     _______,  _______,
       _______, KC_EXCLAIM, KC_AT,    KC_HASH, KC_DOLLAR,                       KC_PERCENT,  _______,           _______, KC_AMPERSAND, KC_LEFT_PAREN,         KC_RIGHT_PAREN,         KC_MINUS,    KC_EQUAL, _______,
       _______, _______,    SAVE_VIM, _______, LT(SYMBOLS_ALT, KC_KP_ASTERISK), KC_QUESTION, _______,           _______, _______,      KC_LEFT_CURLY_BRACE,   KC_RIGHT_CURLY_BRACE,   KC_QUOTE,       _______, _______,
-      _______, _______,    _______,  _______, _______,                         KC_SLASH,                                _______,      KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, KC_SLASH,    _______,  _______,
+      _______, _______,    _______,  _______, _______,                         KC_SLASH,                                KC_PIPE,      KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, KC_SLASH,    _______,  _______,
       _______, _______,    _______,  _______, _______,                         _______,                        _______, _______,      _______,               _______,                TYPE_EMAIL,  _______,
                                               _______,                         _______,     _______,           _______, _______,      _______
   ),
@@ -92,8 +94,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [NUMBERS] = LAYOUT_moonlander(
         _______, SONG_1,  SONG_2,  SONG_3,  _______, _______, _______,           _______, _______, _______, _______, _______,  _______, _______,
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,     KC_0,    KC_BSLASH,
-        _______, _______, _______, _______, _______, _______, _______,           _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______,
+        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,     KC_0,    VIM_SEARCH,
+        _______, _______, _______, _______, _______, _______, _______,           _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, VIM_SEARCH_JS,
         _______, _______, _______, _______, _______,      _______,                        _______, _______, _______, _______,  _______, _______,
         _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______,  _______, _______,
                                             _______, _______, _______, _______,_______, _______
@@ -126,10 +128,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                            _______,             _______, _______, _______, _______, _______
     ),
     [RGB_LAYER] = LAYOUT_moonlander(
-        _______, SONG_1,         SONG_2,              SONG_3,             _______,             _______, _______,          _______,                    _______, _______, _______, _______, _______, _______,
-        _______, RGB_MODE_PLAIN, RGB_MODE_BREATHE,    RGB_MODE_RAINBOW,    RGB_MODE_SWIRL,      RGB_TOG, _______,          _______, ANIMATE_KEY_PRESS, _______, _______, _______, _______, _______,
-        _______, _______,        KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, _______, _______,          _______, RGB_HUD,           RGB_HUI, RGB_SAD, RGB_SAI, _______, _______,
-        _______, _______,        _______,             KC__VOLDOWN,         KC__VOLUP,           _______,                            RGB_VAI,           RGB_VAD, _______, _______, _______, _______,
+        _______, SONG_1,             SONG_2,              SONG_3,             _______,             _______, _______,          _______,                    _______, _______, _______, _______, _______, _______,
+        _______, RGB_MODE_PLAIN,     RGB_MODE_BREATHE,    RGB_MODE_RAINBOW,    RGB_MODE_SWIRL,      RGB_TOG, _______,          _______, ANIMATE_KEY_PRESS, _______, _______, _______, _______, _______,
+        _______, _______,            KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, _______, _______,          _______, RGB_HUD,           RGB_HUI, RGB_SAD, RGB_SAI, _______, _______,
+        _______, KC_BRIGHTNESS_DOWN, KC_BRIGHTNESS_UP,    KC__VOLDOWN,         KC__VOLUP,           _______,                            RGB_VAI,           RGB_VAD, _______, _______, _______, _______,
         _______, _______,        _______,             _______,             _______,             _______, _______,          _______,           _______, _______, _______, _______,
                                                                            _______,             _______, _______, _______, _______, _______
     ),
@@ -167,6 +169,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case VIM_TAB_PREV:
             SEND_STRING(SS_TAP(X_ESC) "gT");
+            return false;
+        case VIM_SEARCH:
+            SEND_STRING(SS_TAP(X_ESC) ":Ag \"\"" SS_TAP(X_LEFT));
+            return false;
+        case VIM_SEARCH_JS:
+            SEND_STRING(SS_TAP(X_ESC) ":Ag --js \"\"" SS_TAP(X_LEFT));
             return false;
         case TMUX_PREVIOUS_WINDOW:
             SEND_STRING(SS_LCTL("s") "p");
@@ -275,6 +283,10 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         case NUMBERS:
             rgb_matrix_set_color_all(RGB_TAILWIND_PURPLE_900);
             set_number_row_color(RGB_TAILWIND_ORANGE_500);
+            rgb_matrix_set_color(48, RGB_TAILWIND_CYAN_500);
+            rgb_matrix_set_color(53, RGB_TAILWIND_CYAN_500);
+            rgb_matrix_set_color(58, RGB_TAILWIND_CYAN_500);
+            rgb_matrix_set_color(63, RGB_TAILWIND_CYAN_500);
             break;
         case NUMPAD:
             rgb_matrix_set_color_all(RGB_TAILWIND_PURPLE_900);
@@ -303,6 +315,14 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             rgb_matrix_set_color(26, RGB_TAILWIND_PURPLE_800);
             rgb_matrix_set_color(27, RGB_TAILWIND_TEAL_500);
             rgb_matrix_set_color(44, RGB_TAILWIND_TEAL_500);
+            break;
+        case RGB_LAYER:
+            rgb_matrix_set_color_all(RGB_TAILWIND_ROSE_600);
+            rgb_matrix_set_color(12, RGB_TAILWIND_TEAL_500);
+            rgb_matrix_set_color(17, RGB_TAILWIND_PURPLE_500);
+            rgb_matrix_set_color(18, RGB_TAILWIND_GREEN_500);
+            rgb_matrix_set_color(22, RGB_TAILWIND_TEAL_500);
+            rgb_matrix_set_color(23, RGB_TAILWIND_GREEN_500);
             break;
         default:
             break;
