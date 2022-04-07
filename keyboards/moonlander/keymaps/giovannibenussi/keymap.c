@@ -38,6 +38,8 @@ enum custom_keycodes {
     VRSN = ML_SAFE_RANGE,
     TYPE_EMAIL,
     SAVE_VIM,
+    VIM_COPY_LINE_TO_CURSOR,
+    VIM_PASTE_LINE_FROM_CURSOR,
     VIM_TAB_PREV,
     VIM_TAB_NEXT,
     VIM_SEARCH,
@@ -147,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [MACROS] = LAYOUT_moonlander(
         _______, _______, _______, _______,          _______,         _______,      _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, DYN_REC_START2,   DYN_REC_START1,  _______,      _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, DYN_REC_START2,   DYN_REC_START1,  _______,      _______,          _______, VIM_COPY_LINE_TO_CURSOR, _______, _______, _______, VIM_PASTE_LINE_FROM_CURSOR, _______,
         _______, _______, _______, DYN_MACRO_PLAY2,  DYN_MACRO_PLAY1, _______,      _______,          _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______,          DYN_REC_STOP,    _______,                                 _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______,          _______,         _______,      _______,          _______, _______, _______, _______, _______,
@@ -185,6 +187,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case VIM_TAB_NEXT:
             SEND_STRING(SS_TAP(X_ESC) "gt");
+            return false;
+        case VIM_COPY_LINE_TO_CURSOR:
+            SEND_STRING(SS_TAP(X_ESC) "\"*yy");
+            return false;
+        case VIM_PASTE_LINE_FROM_CURSOR:
+            SEND_STRING(SS_TAP(X_ESC) "\"*pp");
             return false;
         case VIM_TAB_PREV:
             SEND_STRING(SS_TAP(X_ESC) "gT");
