@@ -44,6 +44,8 @@ enum custom_keycodes {
     VIM_TAB_NEXT,
     VIM_SEARCH,
     VIM_SEARCH_JS,
+    VIM_SPLIT_HORIZONTALLY,
+    VIM_SPLIT_VERTICALLY,
     TMUX_PREVIOUS_WINDOW,
     TMUX_NEXT_WINDOW,
     TMUX_PREVIOUS_SESSION,
@@ -51,7 +53,13 @@ enum custom_keycodes {
     TMUX_KILL,
     TMUX_CREATE,
     TMUX_SCROLL,
+    TMUX_FIND,
     TMUX_ZOOM_SCROLL,
+    TMUX_NEW_VERTICAL_PANE,
+    TMUX_NEW_HORIZONTAL_PANE,
+    TMUX_MOVE_LEFT,
+    TMUX_MOVE_RIGHT,
+    TMUX_LIST,
     ANIMATE_KEY_PRESS,
     SONG_1,
     SONG_2,
@@ -94,15 +102,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                               _______,      _______,  _______,           _______, _______,      _______
     ),
 
-    [VIM_TMUX] = LAYOUT_moonlander(
-        _______, _______,   _______,     _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, TMUX_KILL, _______,     TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, _______,   TMUX_ZOOM,   VIM_TAB_PREV,         VIM_TAB_NEXT, TMUX_ZOOM_SCROLL,          _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, _______,   TMUX_CREATE, TMUX_SCROLL,              _______,          _______,                                       _______, _______,  _______,   _______, RESET, _______,
-        _______, _______,   _______,     _______,          _______,          _______,               _______,               _______, _______,  _______,   _______, _______,
-                                            _______, _______, _______, _______,_______, _______
-    ),
-
     [NUMBERS] = LAYOUT_moonlander(
         _______, SONG_1,  SONG_2,  SONG_3,  _______, _______, _______,           _______, _______, _______, _______, _______,  _______, _______,
         _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,     KC_0,    KC_BSLASH,
@@ -113,12 +112,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [VIM_TMUX] = LAYOUT_moonlander(
-        _______, _______,   _______,     _______,              _______,          _______,               _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, TMUX_KILL, _______,     TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, _______,   TMUX_ZOOM,   VIM_TAB_PREV,         VIM_TAB_NEXT, TMUX_ZOOM_SCROLL,      _______,           _______, _______,  _______,   _______, _______, _______,  _______,
-        _______, _______,   TMUX_CREATE, TMUX_SCROLL,              _______,          _______,                                  _______, _______,  _______,   _______, RESET, _______,
-        _______, _______,   _______,     _______,          _______,          _______,               _______,           _______, _______,  _______,   _______, _______,
-                                            _______, _______, _______, _______,_______, _______
+        _______, _______,   _______,     _______,              _______,          _______,               _______,           _______, _______, _______,  _______,                            _______, _______,  _______,
+        _______, TMUX_KILL, _______,     TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, VIM_SPLIT_HORIZONTALLY, _______,  _______,                            _______, _______,  TMUX_NEW_VERTICAL_PANE,
+        _______, _______,   TMUX_ZOOM,   VIM_TAB_PREV,         VIM_TAB_NEXT, TMUX_ZOOM_SCROLL,      _______,               _______, VIM_SPLIT_VERTICALLY, TMUX_MOVE_LEFT,   TMUX_MOVE_RIGHT, TMUX_LIST, _______, TMUX_NEW_HORIZONTAL_PANE,
+        _______, _______,   TMUX_CREATE, TMUX_SCROLL,              _______,          _______,                                       _______, _______,  _______,          _______,          RESET,   _______,
+        _______, _______,   _______,     _______,          _______,          _______,               _______,               _______, _______, _______,  _______, _______,
+                                            TMUX_ZOOM, TMUX_SCROLL, _______, TMUX_FIND,_______, _______
     ),
 
     [NUMPAD] = LAYOUT_moonlander(
@@ -192,7 +191,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING(SS_TAP(X_ESC) "\"*yy");
             return false;
         case VIM_PASTE_LINE_FROM_CURSOR:
-            SEND_STRING(SS_TAP(X_ESC) "\"*pp");
+            SEND_STRING(SS_TAP(X_ESC) "\"*p");
             return false;
         case VIM_TAB_PREV:
             SEND_STRING(SS_TAP(X_ESC) "gT");
@@ -202,6 +201,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case VIM_SEARCH_JS:
             SEND_STRING(SS_TAP(X_ESC) ":Ag --js \"\"" SS_TAP(X_LEFT));
+            return false;
+        case VIM_SPLIT_HORIZONTALLY:
+            SEND_STRING(SS_LCTL("w") "s");
+            return false;
+        case VIM_SPLIT_VERTICALLY:
+            SEND_STRING(SS_LCTL("w") "v");
             return false;
         case TMUX_PREVIOUS_WINDOW:
             SEND_STRING(SS_LCTL("s") "p");
@@ -224,9 +229,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TMUX_SCROLL:
             SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET)); 
             return false;
+        case TMUX_FIND:
+            SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET) "?");
+            return false;
         case TMUX_ZOOM_SCROLL:
             SEND_STRING(SS_LCTL("s") "z");
             SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET)); 
+            return false;
+        case TMUX_NEW_VERTICAL_PANE:
+            SEND_STRING(SS_LCTL("s") SS_LSFT("5"));
+            return false;
+        case TMUX_NEW_HORIZONTAL_PANE:
+            SEND_STRING(SS_LCTL("s") "-");
+            return false;
+        case TMUX_MOVE_LEFT:
+            SEND_STRING(SS_LCTL("s") "{");
+            return false;
+        case TMUX_MOVE_RIGHT:
+            SEND_STRING(SS_LCTL("s") "}");
+            return false;
+        case TMUX_LIST:
+            SEND_STRING(SS_LCTL("s") "s");
             return false;
         case ANIMATE_KEY_PRESS:
             rgb_matrix_mode(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
@@ -342,6 +365,10 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             rgb_matrix_set_color(26, RGB_TAILWIND_PURPLE_800);
             rgb_matrix_set_color(27, RGB_TAILWIND_TEAL_500);
             rgb_matrix_set_color(44, RGB_TAILWIND_TEAL_500);
+            rgb_matrix_set_color(37, RGB_TAILWIND_CYAN_500);
+            rgb_matrix_set_color(38, RGB_TAILWIND_CYAN_500);
+            rgb_matrix_set_color(62, RGB_TAILWIND_CYAN_500);
+            rgb_matrix_set_color(63, RGB_TAILWIND_CYAN_500);
             break;
         case RGB_LAYER:
             rgb_matrix_set_color_all(RGB_TAILWIND_ROSE_600);
