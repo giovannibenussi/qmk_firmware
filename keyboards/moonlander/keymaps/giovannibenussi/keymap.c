@@ -31,7 +31,8 @@ enum layers {
     NUMPAD,
     RGB_LAYER,
     MACROS,
-    MOUSE_AND_SOUND_LAYER
+    MOUSE_AND_SOUND_LAYER,
+    APPS_LAYER
 };
 
 enum custom_keycodes {
@@ -60,6 +61,13 @@ enum custom_keycodes {
     TMUX_MOVE_LEFT,
     TMUX_MOVE_RIGHT,
     TMUX_LIST,
+    OPEN_APPLICATION_Q,
+    OPEN_APPLICATION_W,
+    OPEN_APPLICATION_S,
+    OPEN_APPLICATION_D,
+    OPEN_APPLICATION_F,
+    OPEN_APPLICATION_X,
+    OPEN_APPLICATION_V,
     ANIMATE_KEY_PRESS,
     SONG_1,
     SONG_2,
@@ -81,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SCOLON,
     LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,          KC_B,                                            KC_N,               KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     _______,         _______,               _______,     _______,       MO(MACROS),    _______,                                         _______,            KC_LEAD,      TT(NUMPAD),   _______,         _______,           _______,
-                                                               LT(SYMBOLS, KC_ENT),       LT(VIM_TMUX, KC_ESC),  KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(NUMBERS, KC_SPC)
+                                                               LT(SYMBOLS, KC_ENT),       LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(NUMBERS, KC_SPC)
   ),
 
   [SYMBOLS] = LAYOUT_moonlander(
@@ -155,6 +163,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                      _______,         _______,      _______, _______, _______, _______
     ),
 
+    [APPS_LAYER] = LAYOUT_moonlander(
+        _______, _______,            _______,                                _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, OPEN_APPLICATION_Q, OPEN_APPLICATION_W,                     _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______,            OPEN_APPLICATION_S, OPEN_APPLICATION_D, OPEN_APPLICATION_F, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______,            OPEN_APPLICATION_X,                     _______, OPEN_APPLICATION_V, _______,                            _______, _______, _______, _______, _______, _______,
+        _______, _______,            _______,                                _______,                     _______,          _______, _______,          _______, _______, _______, _______, _______,
+                                                                                      _______, _______, _______, _______, _______, _______
+    ),
 
     /*[LAYOUT_NAME] = LAYOUT_moonlander(*/
         /*_______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,*/
@@ -171,6 +187,14 @@ float mario_gameover_theme[][2] = SONG(MARIO_GAMEOVER);
 float mario_mushroom_theme[][2] = SONG(MARIO_MUSHROOM);
 float my_song[][2] = SONG(QWERTY_SOUND);
 float rick_roll_theme[][2] = SONG(RICK_ROLL);
+
+void open_application(char key[]) {
+  SEND_STRING(SS_DOWN(X_LALT));
+  SEND_STRING(SS_DOWN(X_LSFT));
+  SEND_STRING(key);
+  SEND_STRING(SS_UP(X_LSFT));
+  SEND_STRING(SS_UP(X_LALT));
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
@@ -250,6 +274,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case TMUX_LIST:
             SEND_STRING(SS_LCTL("s") "s");
+            return false;
+        case OPEN_APPLICATION_Q:
+            open_application("q");
+            return false;
+        case OPEN_APPLICATION_W:
+            open_application("w");
+            return false;
+        case OPEN_APPLICATION_S:
+            open_application("s");
+            return false;
+        case OPEN_APPLICATION_D:
+            open_application("d");
+            return false;
+        case OPEN_APPLICATION_F:
+            open_application("f");
+            return false;
+        case OPEN_APPLICATION_X:
+            open_application("x");
+            return false;
+        case OPEN_APPLICATION_V:
+            open_application("v");
             return false;
         case ANIMATE_KEY_PRESS:
             rgb_matrix_mode(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
