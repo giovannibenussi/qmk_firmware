@@ -54,6 +54,7 @@ enum custom_keycodes {
     TMUX_KILL,
     TMUX_CREATE,
     TMUX_SCROLL,
+    TMUX_DETACH,
     TMUX_FIND,
     TMUX_ZOOM_SCROLL,
     TMUX_NEW_VERTICAL_PANE,
@@ -68,6 +69,7 @@ enum custom_keycodes {
     OPEN_APPLICATION_F,
     OPEN_APPLICATION_X,
     OPEN_APPLICATION_V,
+    OPEN_PREVIOUS_APPLICATION,
     ANIMATE_KEY_PRESS,
     SONG_1,
     SONG_2,
@@ -120,12 +122,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [VIM_TMUX] = LAYOUT_moonlander(
-        _______, _______,   _______,     _______,              _______,          _______,               _______,           _______, _______, _______,  _______,                            _______, _______,  _______,
-        _______, TMUX_KILL, _______,     TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,           _______, VIM_SPLIT_HORIZONTALLY, _______,  _______,                            _______, _______,  TMUX_NEW_VERTICAL_PANE,
-        _______, _______,   TMUX_ZOOM,   VIM_TAB_PREV,         VIM_TAB_NEXT, TMUX_ZOOM_SCROLL,      _______,               _______, VIM_SPLIT_VERTICALLY, TMUX_MOVE_LEFT,   TMUX_MOVE_RIGHT, TMUX_LIST, _______, TMUX_NEW_HORIZONTAL_PANE,
-        _______, _______,   TMUX_CREATE, TMUX_SCROLL,              _______,          _______,                                       _______, _______,  _______,          _______,          RESET,   _______,
-        _______, _______,   _______,     _______,          _______,          _______,               _______,               _______, _______, _______,  _______, _______,
-                                            TMUX_ZOOM, TMUX_SCROLL, _______, TMUX_FIND,_______, _______
+        _______, _______,   _______,     _______,              _______,          _______,               _______,            _______, _______, _______,  _______,                            _______, _______,  _______,
+        _______, TMUX_KILL, _______,     TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,            _______, VIM_SPLIT_HORIZONTALLY, _______,  _______,                            _______, _______,  TMUX_NEW_VERTICAL_PANE,
+        _______, _______,   TMUX_ZOOM,   VIM_TAB_PREV,         VIM_TAB_NEXT,     TMUX_ZOOM_SCROLL,      _______,            _______, VIM_SPLIT_VERTICALLY, TMUX_MOVE_LEFT,   TMUX_MOVE_RIGHT, TMUX_LIST, _______, TMUX_NEW_HORIZONTAL_PANE,
+        _______, _______,   TMUX_CREATE, TMUX_SCROLL,          TMUX_DETACH,      _______,                                   _______, _______,  _______,          _______,          RESET,   _______,
+        _______, _______,   _______,     _______,              _______,          _______,               _______,            _______, _______, _______,  _______, _______,
+                                                               TMUX_ZOOM,        TMUX_SCROLL,           _______, TMUX_FIND, _______, _______
     ),
 
     [NUMPAD] = LAYOUT_moonlander(
@@ -164,11 +166,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [APPS_LAYER] = LAYOUT_moonlander(
-        _______, _______,            _______,                                _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, OPEN_APPLICATION_Q, OPEN_APPLICATION_W,                     _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, _______,            OPEN_APPLICATION_S, OPEN_APPLICATION_D, OPEN_APPLICATION_F, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, _______,            OPEN_APPLICATION_X,                     _______, OPEN_APPLICATION_V, _______,                            _______, _______, _______, _______, _______, _______,
-        _______, _______,            _______,                                _______,                     _______,          _______, _______,          _______, _______, _______, _______, _______,
+        _______,                   _______,            _______,                                _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______,                   OPEN_APPLICATION_Q, OPEN_APPLICATION_W,                     _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        OPEN_PREVIOUS_APPLICATION, _______,            OPEN_APPLICATION_S, OPEN_APPLICATION_D, OPEN_APPLICATION_F, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______,                   _______,            OPEN_APPLICATION_X,                     _______, OPEN_APPLICATION_V, _______,                            _______, _______, _______, _______, _______, _______,
+        _______,                   _______,            _______,                                _______,                     _______,          _______, _______,          _______, _______, _______, _______, _______,
                                                                                       _______, _______, _______, _______, _______, _______
     ),
 
@@ -253,6 +255,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case TMUX_SCROLL:
             SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET)); 
             return false;
+        case TMUX_DETACH:
+            SEND_STRING(SS_LCTL("s") "d"); 
+            return false;
         case TMUX_FIND:
             SEND_STRING(SS_LCTL("s") SS_TAP(X_LBRACKET) "?");
             return false;
@@ -295,6 +300,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case OPEN_APPLICATION_V:
             open_application("v");
+            return false;
+        case OPEN_PREVIOUS_APPLICATION:
+            SEND_STRING(SS_DOWN(X_LCMD));
+            SEND_STRING(SS_TAP(X_TAB));
+            SEND_STRING(SS_UP(X_LCMD));
             return false;
         case ANIMATE_KEY_PRESS:
             rgb_matrix_mode(RGB_MATRIX_SOLID_REACTIVE_SIMPLE);
@@ -490,6 +500,30 @@ void matrix_scan_user(void) {
       register_code(KC_S);
       unregister_code(KC_S);
       unregister_code(KC_LGUI);
+    };
+
+    SEQ_TWO_KEYS(KC_Y, KC_W) {
+      SEND_STRING(SS_TAP(X_ESC) "\"*yw");
+    };
+
+    SEQ_TWO_KEYS(KC_Y, KC_Y) {
+      SEND_STRING(SS_TAP(X_ESC) "\"*yy");
+    };
+
+    SEQ_ONE_KEY(KC_P) {
+      SEND_STRING(SS_TAP(X_ESC) "\"*p");
+    };
+
+    SEQ_TWO_KEYS(KC_D, KC_D) {
+      SEND_STRING(SS_TAP(X_ESC) "\"*dd");
+    };
+
+    SEQ_ONE_KEY(KC_L) {
+      SEND_STRING(SS_TAP(X_ESC) "ysiw'");
+    };
+
+    SEQ_ONE_KEY(KC_K) {
+      SEND_STRING(SS_TAP(X_ESC) "ysiw\"");
     };
   }
 }
