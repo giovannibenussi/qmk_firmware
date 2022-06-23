@@ -69,6 +69,7 @@ enum custom_keycodes {
     OPEN_APPLICATION_F,
     OPEN_APPLICATION_X,
     OPEN_APPLICATION_V,
+    OPEN_APPLICATION_B,
     OPEN_PREVIOUS_APPLICATION,
     ANIMATE_KEY_PRESS,
     SONG_1,
@@ -166,12 +167,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [APPS_LAYER] = LAYOUT_moonlander(
-        _______,                   _______,            _______,                                _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______,                   OPEN_APPLICATION_Q, OPEN_APPLICATION_W,                     _______,                     _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        OPEN_PREVIOUS_APPLICATION, _______,            OPEN_APPLICATION_S, OPEN_APPLICATION_D, OPEN_APPLICATION_F, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______,                   _______,            OPEN_APPLICATION_X,                     _______, OPEN_APPLICATION_V, _______,                            _______, _______, _______, _______, _______, _______,
-        _______,                   _______,            _______,                                _______,                     _______,          _______, _______,          _______, _______, _______, _______, _______,
-                                                                                      _______, _______, _______, _______, _______, _______
+        _______,                   _______,             _______,            _______,            _______,            _______,            _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______,                   OPEN_APPLICATION_Q,  OPEN_APPLICATION_W, _______,            _______,            _______,            _______,          _______, _______, _______, _______, _______, _______, _______,
+        OPEN_PREVIOUS_APPLICATION, _______,             OPEN_APPLICATION_S, OPEN_APPLICATION_D, OPEN_APPLICATION_F, _______,            _______,          _______, _______, _______, _______, _______, _______, _______,
+        KC_MEDIA_PLAY_PAUSE,       _______,             OPEN_APPLICATION_X, _______,            OPEN_APPLICATION_V, OPEN_APPLICATION_B,                            _______, _______, _______, _______, _______, _______,
+        KC_MEDIA_PREV_TRACK,       KC_MEDIA_NEXT_TRACK, KC__VOLDOWN,        KC__VOLUP,                              _______  ,          _______, _______,          _______, _______, _______, _______, _______,
+                                                                                                _______,            _______,            _______, _______, _______, _______
     ),
 
     /*[LAYOUT_NAME] = LAYOUT_moonlander(*/
@@ -300,6 +301,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case OPEN_APPLICATION_V:
             open_application("v");
+            return false;
+        case OPEN_APPLICATION_B:
+            open_application("b");
             return false;
         case OPEN_PREVIOUS_APPLICATION:
             SEND_STRING(SS_DOWN(X_LCMD));
@@ -488,6 +492,12 @@ void matrix_scan_user(void) {
 
     SEQ_TWO_KEYS(KC_E, KC_M) {
       SEND_STRING("giovanni.benussi@usach.cl");
+    };
+    SEQ_THREE_KEYS(KC_R, KC_U, KC_T) {
+      SEND_STRING("17.565.817-3");
+    };
+    SEQ_TWO_KEYS(KC_R, KC_U) {
+      SEND_STRING("175658173");
     };
     SEQ_THREE_KEYS(KC_O, KC_P, KC_R) {
         SEND_STRING(SS_DOWN(X_LOPT) SS_DOWN(X_LSFT) "v" SS_UP(X_LSFT) SS_UP(X_LOPT)); 
