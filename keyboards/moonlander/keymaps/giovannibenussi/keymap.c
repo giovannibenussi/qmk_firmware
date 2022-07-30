@@ -32,12 +32,15 @@ enum layers {
     RGB_LAYER,
     MACROS,
     MOUSE_AND_SOUND_LAYER,
-    APPS_LAYER
+    APPS_LAYER,
+    F_LAYER
 };
 
 enum custom_keycodes {
     VRSN = ML_SAFE_RANGE,
     TYPE_EMAIL,
+    CHROME_PREV_PANE,
+    CHROME_NEXT_PANE,
     SAVE_VIM,
     VIM_COPY_LINE_TO_CURSOR,
     VIM_PASTE_LINE_FROM_CURSOR,
@@ -91,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,          KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              _______,
     LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SCOLON,
     LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,          KC_B,                                            KC_N,               KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
-    _______,         _______,               _______,     _______,       MO(MACROS),    _______,                                         _______,            KC_LEAD,      TT(NUMPAD),   _______,         _______,           _______,
+    MO(F_LAYER),         _______,               _______,     _______,       MO(MACROS),    _______,                                         _______,            KC_LEAD,      TT(NUMPAD),   _______,         _______,           _______,
                                                                LT(SYMBOLS, KC_ENT),       LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(NUMBERS, KC_SPC)
   ),
 
@@ -114,17 +117,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [NUMBERS] = LAYOUT_moonlander(
-        _______, SONG_1,  SONG_2,  SONG_3,  _______, _______, _______,           _______, _______, _______, _______, _______,  _______, _______,
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,     KC_0,    KC_BSLASH,
-        _______, _______, _______, _______, _______, _______, _______,           _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, VIM_SEARCH_JS,
-        _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______,  _______, _______,
-        _______, _______, _______, _______,          _______,          _______,           _______,          _______, _______, _______,  _______, _______,
-                                                     _______, _______, _______, _______,  _______, _______
+        _______, SONG_1,  SONG_2,  SONG_3,  _______,        _______, _______,           _______, _______, _______, _______, _______,  _______, _______,
+        _______, KC_1,    KC_2,    KC_3,    KC_4,           KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,     KC_0,    KC_BSLASH,
+        _______, _______, _______, _______, KC_KP_ASTERISK, _______, _______,           _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, VIM_SEARCH_JS,
+        _______, _______, _______, _______, _______,        KC_SLASH,                    _______, _______, _______, _______,  _______, _______,
+        _______, _______, _______, _______,                 _______,          _______,           _______,          _______, _______, _______,  _______, _______,
+                                                            _______, _______, _______, _______,  _______, _______
     ),
 
     [VIM_TMUX] = LAYOUT_moonlander(
         _______, _______,   _______,     _______,              _______,          _______,               _______,            _______, _______, _______,  _______,                            _______, _______,  _______,
-        _______, TMUX_KILL, _______,     TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,            _______, VIM_SPLIT_HORIZONTALLY, _______,  _______,                            _______, _______,  TMUX_NEW_VERTICAL_PANE,
+        _______, TMUX_KILL, _______,     TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, TMUX_PREVIOUS_SESSION, _______,            _______, VIM_SPLIT_HORIZONTALLY, CHROME_PREV_PANE,  CHROME_NEXT_PANE, _______, _______,  TMUX_NEW_VERTICAL_PANE,
         _______, _______,   TMUX_ZOOM,   VIM_TAB_PREV,         VIM_TAB_NEXT,     TMUX_ZOOM_SCROLL,      _______,            _______, VIM_SPLIT_VERTICALLY, TMUX_MOVE_LEFT,   TMUX_MOVE_RIGHT, TMUX_LIST, _______, TMUX_NEW_HORIZONTAL_PANE,
         _______, _______,   TMUX_CREATE, TMUX_SCROLL,          TMUX_DETACH,      _______,                                   _______, _______,  _______,          _______,          RESET,   _______,
         _______, _______,   _______,     _______,              _______,          _______,               _______,            _______, _______, _______,  _______, _______,
@@ -175,6 +178,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                 _______,            _______,            _______, _______, _______, _______
     ),
 
+    [F_LAYER] = LAYOUT_moonlander(
+	_______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+	_______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,            KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,
+	_______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+	_______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
+	_______, _______, _______, _______, _______,          _______, _______,          _______, _______, _______, _______, _______,
+					    _______, _______, _______, _______, _______, _______
+    ),
+
     /*[LAYOUT_NAME] = LAYOUT_moonlander(*/
         /*_______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,*/
         /*_______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,*/
@@ -207,6 +219,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case TYPE_EMAIL:
             SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            return false;
+        case CHROME_PREV_PANE:
+            SEND_STRING(SS_LCTL("`") SS_LCMD("["));
+            return false;
+        case CHROME_NEXT_PANE:
+            SEND_STRING(SS_LCTL("`") SS_LCMD("]"));
             return false;
         case SAVE_VIM:
             SEND_STRING(SS_TAP(X_ESC) " w");
