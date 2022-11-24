@@ -245,7 +245,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING(SS_TAP(X_ESC) ":Ag \"\"" SS_TAP(X_LEFT));
             return false;
         case VIM_SEARCH_JS:
-            SEND_STRING(SS_TAP(X_ESC) ":Ag --js \"\"" SS_TAP(X_LEFT));
+            SEND_STRING(SS_TAP(X_ESC) ":Ack --js \"\"" SS_TAP(X_LEFT));
             return false;
         case VIM_SPLIT_HORIZONTALLY:
             SEND_STRING(SS_LCTL("w") "s");
