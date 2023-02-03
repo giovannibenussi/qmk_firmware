@@ -22,6 +22,8 @@
 #include "version.h"
 #include "colors.h"
 
+bool ledEnabled = true;
+
 enum layers {
     BASE,
     SYMBOLS,
@@ -86,6 +88,7 @@ enum custom_keycodes {
     SONG_8,
     SONG_9,
     SONG_0,
+    TOGGLE_LEDS
 };
 
 // clang-format off
@@ -153,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                            _______,             _______, _______, _______, _______, _______
     ),
     [RGB_LAYER] = LAYOUT_moonlander(
-        _______, SONG_1,             SONG_2,              SONG_3,             _______,             _______, _______,          _______,                    _______, _______, _______, _______, _______, _______,
+        _______, SONG_1,             SONG_2,              SONG_3,             _______,             _______, _______,          _______,                    _______, _______, _______, _______, _______, TOGGLE_LEDS,
         _______, RGB_MODE_PLAIN,     RGB_MODE_BREATHE,    RGB_MODE_RAINBOW,    RGB_MODE_SWIRL,      RGB_TOG, _______,          _______, ANIMATE_KEY_PRESS, _______, _______, _______, _______, _______,
         _______, _______,            KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, _______, _______,          _______, RGB_HUD,           RGB_HUI, RGB_SAD, RGB_SAI, _______, _______,
         _______, KC_BRIGHTNESS_DOWN, KC_BRIGHTNESS_UP,    KC__VOLDOWN,         KC__VOLUP,           _______,                            RGB_VAI,           RGB_VAD, _______, _______, _______, _______,
@@ -345,6 +348,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SONG_3:
             PLAY_SONG(mario_gameover_theme);
             return false;
+        case TOGGLE_LEDS:
+            ledEnabled = !ledEnabled;
+            return false;
         }
     }
     return true;
@@ -402,6 +408,11 @@ void set_number_row_color(uint8_t red, uint8_t green, uint8_t blue) {
 }
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    if(!ledEnabled) {
+      rgb_matrix_set_color_all(RGB_NONE);
+      return;
+    }
+
     switch(get_highest_layer(layer_state|default_layer_state)) {
         case BASE:
             rgb_matrix_set_color_all(RGB_TAILWIND_PURPLE_800);
