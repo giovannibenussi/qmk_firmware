@@ -75,6 +75,7 @@ enum custom_keycodes {
     OPEN_APPLICATION_G,
     OPEN_APPLICATION_I,
     OPEN_APPLICATION_X,
+    OPEN_APPLICATION_C,
     OPEN_APPLICATION_V,
     OPEN_APPLICATION_B,
     OPEN_APPLICATION_L,
@@ -180,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,                   _______,             _______,            _______,            _______,            _______,            _______,          _______, _______, _______, _______, _______, _______, _______,
         _______,                   OPEN_APPLICATION_Q,  OPEN_APPLICATION_W, _______,            _______,            _______,            _______,          _______, _______, _______, OPEN_APPLICATION_I, _______, _______, _______,
         OPEN_PREVIOUS_APPLICATION, _______,             OPEN_APPLICATION_S, OPEN_APPLICATION_D, OPEN_APPLICATION_F, OPEN_APPLICATION_G,            _______,          _______, _______, _______, _______, OPEN_APPLICATION_L, _______, _______,
-        KC_MEDIA_PLAY_PAUSE,       _______,             OPEN_APPLICATION_X, _______,            OPEN_APPLICATION_V, OPEN_APPLICATION_B,                            OPEN_APPLICATION_N, _______, _______, _______, _______, _______,
+        KC_MEDIA_PLAY_PAUSE,       _______,             OPEN_APPLICATION_X, OPEN_APPLICATION_C, OPEN_APPLICATION_V, OPEN_APPLICATION_B,                            OPEN_APPLICATION_N, _______, _______, _______, _______, _______,
         KC_MEDIA_PREV_TRACK,       KC_MEDIA_NEXT_TRACK, KC__VOLDOWN,        KC__VOLUP,                              _______  ,          _______, _______,          _______, _______, _______, _______, _______,
                                                                                                 _______,            _______,            _______, _______, _______, _______
     ),
@@ -329,6 +330,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case OPEN_APPLICATION_X:
             open_application("x");
+            return false;
+        case OPEN_APPLICATION_C:
+            open_application("c");
             return false;
         case OPEN_APPLICATION_V:
             open_application("v");
