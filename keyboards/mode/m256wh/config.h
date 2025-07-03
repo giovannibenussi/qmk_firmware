@@ -24,4 +24,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define WS2812_PWM_DMA_STREAM STM32_DMA2_STREAM5
 #define WS2812_PWM_DMA_CHANNEL 6
 
-# define TAPPING_TERM 100
+# define TAPPING_TERM 140

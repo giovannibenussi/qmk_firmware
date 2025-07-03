@@ -18,8 +18,13 @@
 enum custom_keycodes {
     TMUX_PREVIOUS_WINDOW = SAFE_RANGE,
     TMUX_NEXT_WINDOW,
+    TMUX_CREATE_WINDOW,
+    TMUX_CLOSE_WINDOW,
     TMUX_LIST,
     TMUX_PREVIOUS,
+    TMUX_SCROLL,
+    TMUX_SCROLL_AND_SEARCH,
+    TMUX_ZOOM,
     PREVIOUS_TAB,
     NEXT_TAB,
     PREVIOUS_APPLICATION,
@@ -61,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 [4] = LAYOUT_65_ansi_blocker(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT_PAREN, KC_RIGHT_PAREN, KC_TRNS, KC_EQUAL, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT_PAREN, KC_RIGHT_PAREN, KC_MINUS, KC_EQUAL, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, LT(7, KC_ASTERISK), KC_TRNS, KC_ASTERISK, KC_LEFT_CURLY_BRACE, KC_RIGHT_CURLY_BRACE, KC_QUOTE, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_QUESTION, KC_SLASH, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
@@ -91,9 +96,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [8] = LAYOUT_65_ansi_blocker(
     QK_BOOT, KC_F1  , KC_TRNS, KC_TRNS, KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 , KC_TRNS, KC_MUTE,
     KC_TRNS, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLU,
-    KC_TRNS, KC_TRNS, KC_TRNS, VIM_PREVIOUS_TAB, VIM_NEXT_TAB, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, TMUX_PREVIOUS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLD,
-    KC_TRNS, KC_TRNS, KC_TRNS,          TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, KC_TRNS, KC_ASTERISK, KC_SLASH, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_MPLY,
-    KC_TRNS, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    KC_TRNS, KC_TRNS, KC_TRNS, VIM_PREVIOUS_TAB, VIM_NEXT_TAB, KC_TRNS, KC_TRNS, KC_TRNS, TMUX_SCROLL_AND_SEARCH, TMUX_SCROLL, TMUX_PREVIOUS, KC_TRNS, KC_TRNS, KC_VOLD,
+    KC_TRNS, TMUX_ZOOM, TMUX_CREATE_WINDOW, TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, KC_TRNS, KC_TRNS, TMUX_LIST, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_MPLY,
+    TMUX_CLOSE_WINDOW, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 [9] = LAYOUT_65_ansi_blocker(
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -127,10 +132,10 @@ enum combos {
 const uint16_t PROGMEM previous_tab_combo[] = {LCTL_T(KC_S), LOPT_T(KC_D), COMBO_END};
 const uint16_t PROGMEM next_tab_combo[] = {LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM previous_application_combo[] = {LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM vim_save_combo[] = {LCTL_T(KC_S), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM vim_clipboard_register_combo[] = {KC_U, KC_I, COMBO_END};
-const uint16_t PROGMEM vim_save_combo[] = {LCMD_T(KC_A), LOPT_T(KC_D), COMBO_END};
 
 combo_t key_combos[] = {
     [PREVIOUS_TAB_COMBO] = COMBO(previous_tab_combo, PREVIOUS_TAB),
@@ -151,11 +156,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             case TMUX_NEXT_WINDOW:
                 SEND_STRING(SS_LCTL("s") "n");
                 return false;
+            case TMUX_CREATE_WINDOW:
+                SEND_STRING(SS_LCTL("s") "c");
+                return false;
+            case TMUX_CLOSE_WINDOW:
+                SEND_STRING(SS_LCTL("s") "xy");
+                return false;
             case TMUX_LIST:
                 SEND_STRING(SS_LCTL("s") "s");
                 return false;
             case TMUX_PREVIOUS:
                 SEND_STRING(SS_LCTL("s") "L");
+                return false;
+            case TMUX_SCROLL:
+                SEND_STRING(SS_LCTL("s") "[");
+                return false;
+            case TMUX_SCROLL_AND_SEARCH:
+                SEND_STRING(SS_LCTL("s") "[?");
+                return false;
+            case TMUX_ZOOM:
+                SEND_STRING(SS_LCTL("s") "z");
                 return false;
             case PREVIOUS_TAB:
                 SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LSFT) SS_TAP(X_TAB) SS_UP(X_LSFT) SS_UP(X_LCTL));
