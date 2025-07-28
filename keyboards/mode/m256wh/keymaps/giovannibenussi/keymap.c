@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 [3] = LAYOUT_65_ansi_blocker(
     QK_BOOT, KC_F1  , TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 , KC_TRNS, KC_MUTE,
-    KC_TRNS, VIM_CLOSE_TAB, VIM_PREVIOUS_TAB, VIM_NEXT_TAB, KC_R, C(KC_T), KC_TRNS, KC_U, KC_TRNS, KC_TRNS, TMUX_PREVIOUS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLU,
+    KC_TRNS, VIM_CLOSE_TAB, LCMD(KC_W), VIM_NEXT_TAB, KC_R, LCMD(KC_T), KC_TRNS, KC_U, KC_TRNS, KC_TRNS, TMUX_PREVIOUS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLU,
     KC_TRNS, LCMD_T(KC_A), LCTL_T(KC_S), LOPT_T(KC_D),    LSFT_T(KC_F), KC_TRNS, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, TMUX_LIST, KC_TRNS, KC_TRNS, KC_VOLD,
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_C,              KC_TRNS, KC_TRNS, KC_ASTERISK, KC_SLASH, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_MPLY,
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT_PAREN, KC_RIGHT_PAREN, KC_MINUS, KC_EQUAL, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, LT(7, KC_ASTERISK), KC_TRNS, KC_ASTERISK, KC_LEFT_CURLY_BRACE, KC_RIGHT_CURLY_BRACE, KC_QUOTE, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_QUESTION, KC_SLASH, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_QUESTION, KC_SLASH, KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 [5] = LAYOUT_65_ansi_blocker(
@@ -125,7 +125,8 @@ enum combos {
     VIM_SAVE_COMBO,
     JK_TAB,
     QW_SFT,
-    SD_LAYER
+    SD_LAYER,
+    SEND_ENTER
 };
 
 // LCMD_T(KC_A), LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),
@@ -133,7 +134,7 @@ const uint16_t PROGMEM previous_tab_combo[] = {LCTL_T(KC_S), LOPT_T(KC_D), COMBO
 const uint16_t PROGMEM next_tab_combo[] = {LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM previous_application_combo[] = {LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM vim_save_combo[] = {LCTL_T(KC_S), LSFT_T(KC_F), COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM send_enter_combo[] = {LSFT_T(KC_J), LOPT_T(KC_K), COMBO_END};
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM vim_clipboard_register_combo[] = {KC_U, KC_I, COMBO_END};
 
@@ -143,9 +144,18 @@ combo_t key_combos[] = {
     [VIM_CLIPBOARD_REGISTER_COMBO] = COMBO(vim_clipboard_register_combo, VIM_CLIPBOARD_REGISTER),
     [VIM_SAVE_COMBO] = COMBO(vim_save_combo, VIM_SAVE),
     [PREVIOUS_APPLICATION_COMBO] = COMBO(previous_application_combo, PREVIOUS_APPLICATION),
-    [JK_TAB] = COMBO(jk_combo, KC_TAB),
+    [SEND_ENTER] = COMBO(send_enter_combo, KC_ENTER),
     [QW_SFT] = COMBO(qw_combo, KC_LSFT),
 };
+
+bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
+    switch (combo_index) {
+        case SEND_ENTER:
+            return true;  // Only trigger this combo if both keys are tapped
+        default:
+            return false; // Other combos can behave normally
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
