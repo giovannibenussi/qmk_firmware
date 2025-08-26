@@ -42,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LT(3, KC_TAB) , KC_Q   ,      KC_W        , KC_E   ,         KC_R  ,       KC_T    , KC_Y   , KC_U   ,      KC_I   ,      KC_O   ,      KC_P,            KC_LBRC, KC_RBRC, KC_BSLS, KC_AUDIO_VOL_UP,
     LT(2, KC_GRAVE),       LCMD_T(KC_A), LCTL_T(KC_S), LOPT_T(KC_D),    LSFT_T(KC_F), KC_G,     KC_H,    LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L), LCMD_T(KC_BACKSPACE), KC_SEMICOLON, KC_ENT,           KC_AUDIO_VOL_DOWN,
     KC_LEFT_SHIFT, LT(9, KC_Z),         KC_X,         KC_C,            LT(4, KC_V)  ,       KC_B    , LT(8, KC_N), LT(8, KC_M),      KC_COMM,      KC_DOT ,      KC_SLSH,         KC_RSFT         , KC_UP  , KC_MEDIA_PLAY_PAUSE,
-    KC_LCTL,       KC_LALT,      KC_LGUI,                            LT(3, KC_SPACE),                    MO(3),      MO(1)  ,      KC_LEFT,      KC_DOWN,         KC_RGHT
+    KC_LCTL,       KC_LALT,      KC_LGUI,                            LT(3, KC_SPACE),                    KC_MEH,      MO(1)  ,      KC_LEFT,      KC_DOWN,         KC_RGHT
 ),
 [1] = LAYOUT_65_ansi_blocker(
     QK_BOOT, KC_BRIGHTNESS_DOWN, KC_BRIGHTNESS_UP, KC_MISSION_CONTROL, KC_LAUNCHPAD, KC_MEDIA_PREV_TRACK, KC_MPLY, KC_MEDIA_NEXT_TRACK, KC_MUTE, KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_F11, KC_F12, KC_TRNS, KC_TRNS,
@@ -58,9 +58,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, C(KC_X), C(KC_C), KC_TRNS, KC_TRNS, KC_ASTERISK, KC_SLASH, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
+// Space Layer
 [3] = LAYOUT_65_ansi_blocker(
     QK_BOOT, KC_F1  , TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 , KC_TRNS, KC_MUTE,
-    KC_TRNS, VIM_CLOSE_TAB, LCMD(KC_W), VIM_NEXT_TAB, LCMD(KC_R), LCMD(KC_T), KC_TRNS, KC_U, KC_TRNS, KC_TRNS, TMUX_PREVIOUS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLU,
+    LCMD(KC_TAB), VIM_CLOSE_TAB, LCMD(KC_W), VIM_NEXT_TAB, LCMD(KC_R), LCMD(KC_T), KC_TRNS, KC_U, KC_TRNS, KC_TRNS, TMUX_PREVIOUS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLU,
     KC_TRNS, LCMD_T(KC_A), LCTL_T(KC_S), LOPT_T(KC_D),    LSFT_T(KC_F), KC_TRNS, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, TMUX_LIST, KC_TRNS, KC_TRNS, KC_VOLD,
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_C,              KC_TRNS, KC_TRNS, KC_ASTERISK, KC_SLASH, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_MPLY,
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
