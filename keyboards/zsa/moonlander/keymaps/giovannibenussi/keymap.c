@@ -15,7 +15,11 @@ enum layers {
     MACROS,
     MOUSE_AND_SOUND_LAYER,
     APPS_LAYER,
-    F_LAYER
+    F_LAYER,
+    SYMBOLS_N,
+    SYMBOLS_V,
+    BRACKETS_FV,
+    SPACE_LAYER
 };
 
 enum custom_keycodes {
@@ -39,6 +43,7 @@ enum custom_keycodes {
     TMUX_KILL,
     TMUX_CREATE,
     TMUX_SCROLL,
+    TMUX_SCROLL_AND_SEARCH,
     TMUX_DETACH,
     TMUX_FIND,
     TMUX_ZOOM_SCROLL,
@@ -82,16 +87,16 @@ enum custom_keycodes {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [BASE] = LAYOUT_moonlander(
-    _______,         _______,               _______,      _______,      _______,       _______, _______,           _______,             _______,            _______,      _______,      _______,         _______,           _______,
-    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,          KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              _______,
+    QK_GRAVE_ESCAPE, KC_1,                  KC_2,         KC_3,         KC_4,          KC_5,    _______,          _______,            KC_6,              KC_7,                KC_8,               KC_9,         KC_0,         LT(1, KC_DEL),
+    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,          KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_BSLS,
     LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SEMICOLON,
-    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         KC_V,          KC_B,                                            KC_N,               KC_M,         KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
+    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         LT(SYMBOLS_V, KC_V), KC_B,                                            LT(SYMBOLS_N, KC_N), LT(SYMBOLS_N, KC_M),               KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     MO(F_LAYER),         _______,               KC_LCTL,     KC_LALT,       KC_LGUI,       _______,                                         _______,            QK_LEADER,    TT(NUMPAD),   _______,         _______,           _______,
-                                                               LT(SYMBOLS, KC_ENT),       LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(NUMBERS, KC_SPC)
+                                                               LT(SYMBOLS, KC_ENT),       LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(SPACE_LAYER, KC_SPC)
   ),
 
   [SYMBOLS] = LAYOUT_moonlander(
-      _______, _______,    _______,  _______, _______,                         _______,     _______,           _______, _______,      _______,               _______,                _______,     _______,  _______,
+      QK_BOOT, _______,    _______,  _______, _______,                         _______,     _______,           _______, _______,      _______,               _______,                _______,     _______,  _______,
       _______, KC_EXCLAIM, KC_AT,    KC_HASH, KC_DOLLAR,                       KC_PERCENT,  _______,           _______, KC_AMPERSAND, KC_LEFT_PAREN,         KC_RIGHT_PAREN,         KC_MINUS,    KC_EQUAL, _______,
       _______, _______,    SAVE_VIM, _______, LT(SYMBOLS_ALT, KC_KP_ASTERISK), KC_QUESTION, _______,           _______, _______,      KC_LEFT_CURLY_BRACE,   KC_RIGHT_CURLY_BRACE,   KC_QUOTE,       _______, _______,
       _______, _______,    _______,  _______, _______,                         KC_SLASH,                                KC_PIPE,      KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, KC_SLASH,    _______,  _______,
@@ -177,6 +182,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	_______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
 	_______, _______, _______, _______, _______,          _______, _______,          _______, _______, _______, _______, _______,
 					    _______, _______, _______, _______, _______, _______
+    ),
+
+    [SYMBOLS_N] = LAYOUT_moonlander(
+        RESET,   KC_F1,     KC_F2,     KC_F3,              KC_F4,             KC_F5,   KC_F6,                        KC_F7,   KC_F8,     KC_F9,    KC_F10,                  KC_F11,               KC_F12,                KC_MUTE,
+        _______,   KC_1,      KC_2,      KC_3,               KC_4,              KC_5,    _______,                      _______, KC_6,      KC_7,     KC_8,                    KC_9,                 KC_0,                  KC_AUDIO_VOL_UP,
+        _______,   _______,   _______,   VIM_TAB_PREV,       VIM_TAB_NEXT,      _______, _______,                      _______, _______,   _______,  TMUX_SCROLL_AND_SEARCH,  TMUX_SCROLL,          TMUX_PREVIOUS_SESSION, VIM_SEARCH_JS,
+        _______,   TMUX_ZOOM, TMUX_CREATE, TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, _______,                                       _______, TMUX_LIST, _______,  _______,                 _______,              _______,
+        TMUX_KILL, _______,   _______,   _______,            _______,           _______,                      _______,          _______, _______,   _______,  _______,                 _______,
+                                                             _______,           _______, _______,          _______, _______, _______
+    ),
+
+    [SYMBOLS_V] = LAYOUT_moonlander(
+        _______, _______,   _______,   _______,   _______,   _______, _______,                      _______, _______,     _______,               _______,                 _______,   _______, _______,
+        _______, _______,   _______,   _______,   _______,   _______, _______,                      _______, _______,     KC_LEFT_PAREN,         KC_RIGHT_PAREN,          KC_MINUS,  KC_EQUAL, _______,
+        _______, _______,   _______,   _______,   _______,   KC_ASTERISK, _______,                  _______, KC_ASTERISK, KC_LEFT_CURLY_BRACE,   KC_RIGHT_CURLY_BRACE,    KC_QUOTE,  _______, _______,
+        _______, _______,   _______,   _______,   _______,   _______,                                        _______,     KC_QUESTION,           KC_SLASH,                KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, _______,
+        _______, _______,   _______,   _______,   _______,            _______,                     _______,          _______,     _______,               _______,                 _______,   _______,
+                                                             _______,   _______, _______,          _______, _______, _______
+    ),
+
+    [BRACKETS_FV] = LAYOUT_moonlander(
+        _______, _______,   _______,   _______,   _______,   _______, _______,                      _______, _______,     _______,               _______,                 _______,   _______, _______,
+        _______, _______,   _______,   _______,   _______,   _______, _______,                      _______, _______,     _______,               _______,                 _______,   _______, _______,
+        _______, _______,   _______,   _______,   _______,   _______, _______,                      _______, _______,     KC_LEFT_BRACKET,       KC_RIGHT_BRACKET,        _______,   _______, _______,
+        _______, _______,   _______,   _______,   _______,   _______,                                        _______,     _______,               _______,                 _______,   _______, _______,
+        _______, _______,   _______,   _______,   _______,            _______,                     _______,          _______,     _______,               _______,                 _______,   _______,
+                                                             _______,   _______, _______,          _______, _______, _______
+    ),
+
+    [SPACE_LAYER] = LAYOUT_moonlander(
+        RESET,       KC_F1,            TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, KC_F4,        KC_F5,    KC_F6,             KC_F7,       KC_F8,        KC_F9,    KC_F10,   KC_F11,               KC_F12,   KC_MUTE,
+        LCMD(KC_TAB), VIM_TAB_PREV,     LCMD(KC_W),          VIM_TAB_NEXT,     LCMD(KC_R),   LCMD(KC_T), _______,          _______,     KC_U,         _______,  _______,  TMUX_PREVIOUS_SESSION, _______,  KC_AUDIO_VOL_UP,
+        _______,     LCMD_T(KC_A),     LCTL_T(KC_S),        LOPT_T(KC_D),     LSFT_T(KC_F), _______,  _______,           _______,     KC_LEFT,      KC_DOWN,  KC_UP,    KC_RIGHT,             TMUX_LIST, KC_AUDIO_VOL_DOWN,
+        _______,     _______,          _______,             KC_C,             _______,      _______,                                   _______,      KC_ASTERISK, KC_SLASH, _______,           _______,  KC_MEDIA_PLAY_PAUSE,
+        _______,     _______,          _______,             _______,          _______,               _______,          _______,          _______,      _______,  _______,  _______,           _______,
+                                                                              KC_ENT,       _______,   _______,          _______, _______, _______
     ),
 
     /*[LAYOUT_NAME] = LAYOUT_moonlander(*/
@@ -265,6 +306,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case TMUX_SCROLL:
             SEND_STRING(SS_LCTL("s") SS_TAP(X_LEFT_BRACKET));
+            return false;
+        case TMUX_SCROLL_AND_SEARCH:
+            SEND_STRING(SS_LCTL("s") SS_TAP(X_LEFT_BRACKET) "?");
             return false;
         case TMUX_DETACH:
             SEND_STRING(SS_LCTL("s") "d");
@@ -374,6 +418,11 @@ enum combo_events {
   SWITCH_APP_COMBO,
   VIM_SAVE,
   VIM_CLIPBOARD_REGISTER,
+  FV_BRACKETS_COMBO,
+  RESET_COMBO,
+  SD_PREVIOUS_TAB,
+  DF_NEXT_TAB,
+  SEND_ENTER,
   COMBO_LENGTH
 };
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
@@ -383,6 +432,11 @@ const uint16_t PROGMEM next_tab[] = {KC_C, KC_V, COMBO_END};
 const uint16_t PROGMEM switch_app[] = {LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM vim_save[] = {LCTL_T(KC_S), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM vim_clipboard_register[] = {KC_U, KC_I, COMBO_END};
+const uint16_t PROGMEM fv_brackets[] = {LSFT_T(KC_F), LT(SYMBOLS_V, KC_V), COMBO_END};
+const uint16_t PROGMEM reset_combo[] = {QK_GRAVE_ESCAPE, KC_BSPC, COMBO_END};
+const uint16_t PROGMEM sd_previous_tab[] = {LCTL_T(KC_S), LOPT_T(KC_D), COMBO_END};
+const uint16_t PROGMEM df_next_tab[] = {LOPT_T(KC_D), LSFT_T(KC_F), COMBO_END};
+const uint16_t PROGMEM send_enter[] = {LSFT_T(KC_J), LOPT_T(KC_K), COMBO_END};
 
 combo_t key_combos[] = {
   [PREVIOUS_TAB_COMBO] = COMBO_ACTION(previous_tab),
@@ -390,6 +444,11 @@ combo_t key_combos[] = {
   [SWITCH_APP_COMBO] = COMBO_ACTION(switch_app),
   [VIM_SAVE] = COMBO_ACTION(vim_save),
   [VIM_CLIPBOARD_REGISTER] = COMBO_ACTION(vim_clipboard_register),
+  [FV_BRACKETS_COMBO] = COMBO_ACTION(fv_brackets),
+  [RESET_COMBO] = COMBO_ACTION(reset_combo),
+  [SD_PREVIOUS_TAB] = COMBO_ACTION(sd_previous_tab),
+  [DF_NEXT_TAB] = COMBO_ACTION(df_next_tab),
+  [SEND_ENTER] = COMBO_ACTION(send_enter),
 };
 
 void set_home_row_color(uint8_t red, uint8_t green, uint8_t blue) {
@@ -526,9 +585,44 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         SEND_STRING("\"*");
       }
       break;
+    case FV_BRACKETS_COMBO:
+      if (pressed) {
+        layer_on(BRACKETS_FV);
+      } else {
+        layer_off(BRACKETS_FV);
+      }
+      break;
+    case RESET_COMBO:
+      if (pressed) {
+        reset_keyboard();
+      }
+      break;
+    case SD_PREVIOUS_TAB:
+      if (pressed) {
+        SEND_STRING(SS_DOWN(X_LCTL) SS_DOWN(X_LSFT) SS_TAP(X_TAB) SS_UP(X_LSFT) SS_UP(X_LCTL));
+      }
+      break;
+    case DF_NEXT_TAB:
+      if (pressed) {
+        SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_TAB) SS_UP(X_LCTL));
+      }
+      break;
+    case SEND_ENTER:
+      if (pressed) {
+        SEND_STRING(SS_TAP(X_ENT));
+      }
+      break;
   }
 }
 
+bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
+    switch (combo_index) {
+        case SEND_ENTER:
+            return true;  // Only trigger this combo if both keys are tapped
+        default:
+            return false; // Other combos can behave normally
+    }
+}
 
 void leader_end_user(void) {
     if (leader_sequence_two_keys(KC_E, KC_M)) {
