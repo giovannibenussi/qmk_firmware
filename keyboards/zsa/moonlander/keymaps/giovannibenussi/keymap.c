@@ -19,7 +19,8 @@ enum layers {
     SYMBOLS_N,
     SYMBOLS_V,
     BRACKETS_FV,
-    SPACE_LAYER
+    SPACE_LAYER,
+    CAPS_LAYER
 };
 
 enum custom_keycodes {
@@ -88,9 +89,9 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [BASE] = LAYOUT_moonlander(
     QK_GRAVE_ESCAPE, KC_1,                  KC_2,         KC_3,         KC_4,          KC_5,    _______,          _______,            KC_6,              KC_7,                KC_8,               KC_9,         KC_0,         LT(1, KC_DEL),
-    KC_GRAVE,        KC_Q,                  KC_W,         KC_E,         KC_R,          KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_BSLS,
-    LCTL_T(KC_TAB),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SEMICOLON,
-    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         LT(SYMBOLS_V, KC_V), KC_B,                                            LT(SYMBOLS_N, KC_N), LT(SYMBOLS_N, KC_M),               KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
+    KC_TAB,        KC_Q,                  KC_W,         KC_E,         KC_R,          KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_BSLS,
+    LCTL_T(KC_GRAVE),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SEMICOLON,
+    LT(CAPS_LAYER, KC_GRAVE), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         LT(SYMBOLS_V, KC_V), KC_B,                                            LT(SYMBOLS_N, KC_N), LT(SYMBOLS_N, KC_M),               KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     MO(F_LAYER),         _______,               KC_LCTL,     KC_LALT,       KC_LGUI,       _______,                                         _______,            QK_LEADER,    TT(NUMPAD),   _______,         _______,           _______,
                                                                LT(SYMBOLS, KC_ENT),       LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(SPACE_LAYER, KC_SPC)
   ),
@@ -187,7 +188,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [SYMBOLS_N] = LAYOUT_moonlander(
         RESET,   KC_F1,     KC_F2,     KC_F3,              KC_F4,             KC_F5,   KC_F6,                        KC_F7,   KC_F8,     KC_F9,    KC_F10,                  KC_F11,               KC_F12,                KC_MUTE,
         _______,   KC_1,      KC_2,      KC_3,               KC_4,              KC_5,    _______,                      _______, KC_6,      KC_7,     KC_8,                    KC_9,                 KC_0,                  KC_AUDIO_VOL_UP,
-        _______,   _______,   _______,   VIM_TAB_PREV,       VIM_TAB_NEXT,      _______, _______,                      _______, _______,   _______,  TMUX_SCROLL_AND_SEARCH,  TMUX_SCROLL,          TMUX_PREVIOUS_SESSION, VIM_SEARCH_JS,
+        _______,   _______,   _______,   VIM_TAB_PREV,       VIM_TAB_NEXT,      _______, _______,                      _______, _______,   KC_LEFT_BRACKET,  TMUX_SCROLL_AND_SEARCH,  TMUX_SCROLL,          TMUX_PREVIOUS_SESSION, VIM_SEARCH_JS,
         _______,   TMUX_ZOOM, TMUX_CREATE, TMUX_PREVIOUS_WINDOW, TMUX_NEXT_WINDOW, _______,                                       _______, TMUX_LIST, _______,  _______,                 _______,              _______,
         TMUX_KILL, _______,   _______,   _______,            _______,           _______,                      _______,          _______, _______,   _______,  _______,                 _______,
                                                              _______,           _______, _______,          _______, _______, _______
@@ -197,7 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______,   _______,   _______,   _______,   _______, _______,                      _______, _______,     _______,               _______,                 _______,   _______, _______,
         _______, _______,   _______,   _______,   _______,   _______, _______,                      _______, _______,     KC_LEFT_PAREN,         KC_RIGHT_PAREN,          KC_MINUS,  KC_EQUAL, _______,
         _______, _______,   _______,   _______,   _______,   KC_ASTERISK, _______,                  _______, KC_ASTERISK, KC_LEFT_CURLY_BRACE,   KC_RIGHT_CURLY_BRACE,    KC_QUOTE,  _______, _______,
-        _______, _______,   _______,   _______,   _______,   _______,                                        _______,     KC_QUESTION,           KC_SLASH,                KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, _______,
+        _______, _______,   _______,   _______,   _______,   _______,                                        KC_QUESTION,           KC_SLASH,                _______,     KC_LEFT_ANGLE_BRACKET, KC_RIGHT_ANGLE_BRACKET, _______,
         _______, _______,   _______,   _______,   _______,            _______,                     _______,          _______,     _______,               _______,                 _______,   _______,
                                                              _______,   _______, _______,          _______, _______, _______
     ),
@@ -218,6 +219,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,     _______,          _______,             KC_C,             _______,      _______,                                   _______,      KC_ASTERISK, KC_SLASH, _______,           _______,  KC_MEDIA_PLAY_PAUSE,
         _______,     _______,          _______,             _______,          _______,               _______,          _______,          _______,      _______,  _______,  _______,           _______,
                                                                               KC_ENT,       _______,   _______,          _______, _______, _______
+    ),
+
+    [CAPS_LAYER] = LAYOUT_moonlander(
+        KC_GRAVE,    _______,          _______,             _______,          _______,      _______,  _______,           _______,     _______,      _______,  _______,  _______,               _______,  _______,
+        _______,     _______,          C(KC_W),             C(KC_E),          C(KC_R),      C(KC_T),  _______,           _______,     C(KC_Y),      C(KC_U),  KC_LEFT_PAREN, KC_RIGHT_PAREN,   C(KC_P),  _______,
+        _______,     _______,          C(KC_S),             C(KC_D),          LSFT_T(KC_F), _______,  _______,           _______,     C(KC_H),      C(KC_J),  C(KC_K),  KC_QUOTE,             KC_SEMICOLON, KC_GRAVE,
+        _______,     _______,          C(KC_X),             C(KC_C),          _______,      _______,                                  _______,      KC_ASTERISK, KC_SLASH, _______,           _______,  _______,
+        _______,     _______,          _______,             _______,          _______,               _______,          _______,          _______,      _______,  _______,  _______,           _______,
+                                                                              KC_ENTER,     _______,   _______,          _______, _______, _______
     ),
 
     /*[LAYOUT_NAME] = LAYOUT_moonlander(*/
