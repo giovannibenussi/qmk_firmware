@@ -110,11 +110,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS,          KC_ENTER,                   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 ),
 [10] = LAYOUT_65_ansi_blocker(
-    QK_BOOT, KC_BRIGHTNESS_DOWN, KC_BRIGHTNESS_UP, KC_MISSION_CONTROL, KC_LAUNCHPAD, KC_MEDIA_PREV_TRACK, KC_MPLY, KC_MEDIA_NEXT_TRACK, KC_MUTE, KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, KC_MEDIA_PLAY_PAUSE, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_VOLD,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS,                   KC_TRNS, KC_TRNS, KC_MEDIA_PREV_TRACK, KC_MPLY, KC_MEDIA_NEXT_TRACK
+    QK_BOOT,                 KC_BRIGHTNESS_DOWN,   KC_BRIGHTNESS_UP,     KC_F3,                KC_F4,                KC_F5,                  KC_F6,     KC_F7,     KC_F8,     KC_F9,     KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,
+    KC_TRNS,                 KC_TRNS,              KC_TRNS,              KC_AUDIO_VOL_DOWN,    KC_AUDIO_VOL_UP,      KC_TRNS,                KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,
+    KC_TRNS,                 KC_TRNS,              KC_TRNS,              KC_TRNS,              KC_MEDIA_PLAY_PAUSE,  KC_TRNS,                KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,              KC_TRNS,
+    KC_TRNS,                 KC_TRNS,              KC_TRNS,              KC_MEDIA_PREV_TRACK,  KC_MEDIA_NEXT_TRACK,  KC_TRNS,                KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,              KC_TRNS,   KC_TRNS,
+    KC_TRNS,                 KC_TRNS,              KC_TRNS,                                             KC_TRNS,                                        KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS,   KC_TRNS
 ),
 // [3] = LAYOUT_65_ansi_blocker(
 //     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -136,7 +136,8 @@ enum combos {
     JK_TAB,
     QW_SFT,
     SD_LAYER,
-    SEND_ENTER
+    SEND_ENTER,
+    FG_ENTER
 };
 
 // LCMD_T(KC_A), LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),
@@ -146,6 +147,7 @@ const uint16_t PROGMEM previous_application_combo[] = {LCTL_T(KC_S), LOPT_T(KC_D
 const uint16_t PROGMEM vim_save_combo[] = {LCTL_T(KC_S), LSFT_T(KC_F), COMBO_END};
 const uint16_t PROGMEM vim_save_combo_and_focus_tmux_combo[] = {KC_W, KC_R, COMBO_END};
 const uint16_t PROGMEM send_enter_combo[] = {LSFT_T(KC_J), LOPT_T(KC_K), COMBO_END};
+const uint16_t PROGMEM fg_enter_combo[] = {LSFT_T(KC_F), KC_G, COMBO_END};
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM vim_clipboard_register_combo[] = {KC_U, KC_I, COMBO_END};
 
@@ -157,12 +159,14 @@ combo_t key_combos[] = {
     [VIM_SAVE_AND_FOCUS_TMUX_COMBO] = COMBO(vim_save_combo_and_focus_tmux_combo, VIM_SAVE_AND_FOCUS_TMUX),
     [PREVIOUS_APPLICATION_COMBO] = COMBO(previous_application_combo, PREVIOUS_APPLICATION),
     [SEND_ENTER] = COMBO(send_enter_combo, KC_ENTER),
+    [FG_ENTER] = COMBO(fg_enter_combo, KC_ENTER),
     [QW_SFT] = COMBO(qw_combo, KC_LSFT),
 };
 
 bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
     switch (combo_index) {
         case SEND_ENTER:
+        case FG_ENTER:
             return true;  // Only trigger this combo if both keys are tapped
         default:
             return false; // Other combos can behave normally
