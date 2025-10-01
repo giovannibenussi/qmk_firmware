@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [BASE] = LAYOUT_moonlander(
     QK_GRAVE_ESCAPE, KC_1,                  KC_2,         KC_3,         KC_4,          KC_5,    _______,          _______,            KC_6,              KC_7,                KC_8,               KC_9,         KC_0,         LT(F_LAYER, KC_DEL),
     KC_TAB,        KC_Q,                  KC_W,         KC_E,         KC_R,          KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_BSLS,
-    LCTL_T(KC_GRAVE),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SEMICOLON,
+    LT(CAPS_LAYER, KC_GRAVE),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SEMICOLON,
     LT(CAPS_LAYER, KC_GRAVE), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         LT(SYMBOLS_V, KC_V), KC_B,                                            LT(SYMBOLS_N, KC_N), LT(SYMBOLS_N, KC_M),               KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     _______,         _______,               KC_LCTL,     KC_LALT,       KC_LGUI,       _______,                                         _______,            QK_LEADER,    TT(NUMPAD),   _______,         _______,           _______,
                                                                LT(SYMBOLS, KC_ENT),       LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(SPACE_LAYER, KC_SPC)
@@ -215,7 +215,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [CAPS_LAYER] = LAYOUT_moonlander(
         KC_GRAVE,    _______,          _______,             _______,          _______,      _______,  _______,           _______,     _______,      _______,  _______,  _______,               _______,  _______,
         _______,     _______,          C(KC_W),             C(KC_E),          C(KC_R),      C(KC_T),  _______,           _______,     C(KC_Y),      C(KC_U),  KC_LEFT_PAREN, KC_RIGHT_PAREN,   C(KC_P),  _______,
-        _______,     _______,          C(KC_S),             C(KC_D),          LSFT_T(KC_F), _______,  _______,           _______,     C(KC_H),      C(KC_J),  C(KC_K),  KC_QUOTE,             KC_SEMICOLON, KC_GRAVE,
+        _______,     _______,          C(KC_S),             C(KC_D),          LSFT_T(KC_F), _______,  _______,           _______,     C(KC_H),      C(KC_J),  C(KC_K),  KC_COLN,              KC_SEMICOLON, KC_GRAVE,
         _______,     _______,          C(KC_X),             C(KC_C),          _______,      _______,                                  _______,      KC_ASTERISK, KC_SLASH, _______,           _______,  _______,
         _______,     _______,          _______,             _______,          _______,               _______,          _______,          _______,      _______,  _______,  _______,           _______,
                                                                               KC_ENTER,     _______,   _______,          _______, _______, _______
