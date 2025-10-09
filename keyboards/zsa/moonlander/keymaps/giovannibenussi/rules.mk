@@ -1,2 +1,3 @@
 LEADER_ENABLE = yes
 COMBO_ENABLE = yes
+AUDIO_ENABLE = yes
