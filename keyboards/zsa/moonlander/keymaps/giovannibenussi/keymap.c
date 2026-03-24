@@ -82,7 +82,8 @@ enum custom_keycodes {
     SONG_8,
     SONG_9,
     SONG_0,
-    TOGGLE_LEDS
+    TOGGLE_LEDS,
+    TMUX_CLOSE_PANE
 };
 
 // clang-format off
@@ -91,9 +92,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     QK_GRAVE_ESCAPE, KC_1,                  KC_2,         KC_3,         KC_4,          KC_5,    _______,          _______,            KC_6,              KC_7,                KC_8,               KC_9,         KC_0,         LT(F_LAYER, KC_DEL),
     KC_TAB,        KC_Q,                  KC_W,         KC_E,         KC_R,          KC_T,    _______,           _______,             KC_Y,               KC_U,         KC_I,         KC_O,            KC_P,              KC_BSLS,
     LT(CAPS_LAYER, KC_GRAVE),  LCMD_T(KC_A),          LCTL_T(KC_S), LOPT_T(KC_D), LSFT_T(KC_F),  KC_G,    KC_NO,             KC_NO,               KC_H,               LSFT_T(KC_J), LOPT_T(KC_K), LCTL_T(KC_L),    LCMD_T(KC_BSPC),   KC_SEMICOLON,
-    LT(CAPS_LAYER, KC_GRAVE), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         LT(SYMBOLS_V, KC_V), KC_B,                                            LT(SYMBOLS_N, KC_N), LT(SYMBOLS_N, KC_M),               KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
+    LSFT_T(KC_CAPS), LT(VIM_TMUX, KC_Z),    KC_X,         KC_C,         LT(SYMBOLS_V, KC_V), KC_B,                                            LT(SYMBOLS_N, KC_N), LT(SYMBOLS_N, KC_M),               KC_COMM,      KC_DOT,          RCTL_T(KC_SLSH),   KC_RSFT,
     _______,         _______,               KC_LCTL,     KC_LALT,       KC_LGUI,       _______,                                         _______,            QK_LEADER,    TT(NUMPAD),   _______,         _______,           _______,
-                                                               LT(SYMBOLS, KC_ENT),       LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(RGB_LAYER, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(SPACE_LAYER, KC_SPC)
+                                                               LT(SYMBOLS_V, KC_ENT),     LT(APPS_LAYER, KC_ESC), KC_LGUI,               LT(SYMBOLS_N, KC_ESC), LT(MOUSE_AND_SOUND_LAYER, KC_BSPC), LT(SPACE_LAYER, KC_SPC)
   ),
 
   [SYMBOLS] = LAYOUT_moonlander(
@@ -246,6 +247,11 @@ float mario_gameover_theme[][2] = SONG(MARIO_GAMEOVER);
 float mario_mushroom_theme[][2] = SONG(MARIO_MUSHROOM);
 float my_song[][2] = SONG(QWERTY_SOUND);
 float rick_roll_theme[][2] = SONG(RICK_ROLL);
+float startup_sound[][2] = SONG(E__NOTE(_B5), E__NOTE(_E6));
+
+void keyboard_post_init_user(void) {
+    PLAY_SONG(startup_sound);
+}
 
 void open_application(char key[]) {
   SEND_STRING(SS_DOWN(X_LALT));
@@ -417,6 +423,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case TOGGLE_LEDS:
             ledEnabled = !ledEnabled;
+            return false;
+        case TMUX_CLOSE_PANE:
+            SEND_STRING(SS_LCTL("s") "x");
             return false;
         }
     }
